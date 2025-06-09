@@ -13,6 +13,8 @@
       --img-bg: #fff;
       --btn-bg: #e0e0e0;
       --btn-fg: #000000;
+      --filter-bg: #f9f9f9;
+      --filter-border: #ddd;
     }
     body.dark {
       --bg: #121212;
@@ -22,6 +24,8 @@
       --img-bg: #000;
       --btn-bg: #333;
       --btn-fg: #e0e0e0;
+      --filter-bg: #1a1a1a;
+      --filter-border: #333;
     }
     body {
       background-color: var(--bg);
@@ -46,19 +50,27 @@
     #filter-panel {
       position: sticky;
       top: 0;
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border);
-      padding: 0.5rem 1rem;
+      background-color: var(--filter-bg);
+      border: 1px solid var(--filter-border);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem;
       z-index: 10;
       width: 75%;
       max-width: 800px;
-      margin: 0 auto;
+      margin: 1rem auto;
       box-sizing: border-box;
+      transition: background-color 0.3s, border-color 0.3s;
     }
     #filter-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    #filter-header span {
+      font-size: 1.25rem;
+      font-weight: bold;
     }
     #filter-toggle {
       background: none;
@@ -75,23 +87,38 @@
       padding: 0.5rem;
       font-size: 1rem;
       box-sizing: border-box;
-      margin-top: 0.5rem;
+      margin: 0.5rem 0;
       border: 1px solid var(--border);
       border-radius: 4px;
+      transition: border-color 0.3s;
     }
     #filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.75rem;
       align-items: center;
       justify-content: center;
-      margin-top: 0.5rem;
+      margin: 0.5rem 0;
     }
-    #filters label, #filters select { margin: 0; }
-    #filters select { flex: 1; min-width: 120px; }
-    #filters input[type="checkbox"] { margin-right: 0.25rem; }
-    #result-count, #buttons { text-align: center; margin-top: 0.5rem; }
-    #buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    #filters label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9rem;
+      min-width: 120px;
+    }
+    #filters select, #filters input[type="checkbox"] {
+      margin-top: 0.25rem;
+    }
+    #result-count, #buttons {
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+    #buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
     /* Quiz container */
     #quiz-container {
       padding: 1rem 0;
@@ -105,13 +132,14 @@
       margin: 1rem 0;
       padding: 1rem;
       border: 1px solid var(--border);
-      border-radius: 4px;
+      border-radius: 8px;
       background-color: var(--card-bg);
+      transition: background-color 0.3s, border-color 0.3s;
     }
-    .question h2 { font-size: 1.2rem; text-align: center; margin: 0 0 .5rem; }
+    .question h2 { font-size: 1.2rem; text-align: center; margin: 0 0 0.5rem; }
     .status { font-weight: bold; }
     .options { list-style: disc; padding-left: 1.5rem; }
-    .options li { margin: .25rem 0; }
+    .options li { margin: 0.25rem 0; }
     .correct { color: #4caf50; }
     .incorrect { color: #f44336; }
     .partial { color: #ff9800; }
@@ -121,6 +149,7 @@
       display: block;
       border: 1px solid var(--border);
       background-color: var(--img-bg);
+      transition: border-color 0.3s;
     }
   </style>
 </head>
@@ -217,9 +246,9 @@
         const d=document.createElement('div'); d.className='question';
         const h=document.createElement('h2'); h.textContent=`Question ${q.question_number} – Quiz: "${q.quiz_name}" – Attempt: "${q.attempt}" – ${q.first_name}, ${q.last_name}`; d.appendChild(h);
         const m=document.createElement('p'); m.innerHTML=`<span class="status ${q.status}">${q.status.toUpperCase()}</span> — ${q.points_awarded}/${q.points_possible} pts`; d.appendChild(m);
-        q.question_body.forEach(p=>{ if(p.type==='text'){const t=document.createElement('p');t.textContent=p.text;d.appendChild(t);} else if(p.type==='image'){const i=document.createElement('img');i.src='/_OUTPUT/_images/'+p.src;i.alt=p.alt||'';d.appendChild(i);} });
+        q.question_body.forEach(p=>{if(p.type==='text'){const t=document.createElement('p');t.textContent=p.text;d.appendChild(t);}else if(p.type==='image'){const i=document.createElement('img');i.src='/_OUTPUT/_images/'+p.src;i.alt=p.alt||'';d.appendChild(i);}});
         const ul=document.createElement('ul'); ul.className='options';
-        q.options.forEach(optv=>{const isSel=q.selected_options.includes(optv);if(selOnly&&!isSel) return; const li=document.createElement('li'); if(isSel) li.className=q.status==='correct'?'correct':(q.status==='incorrect'?'incorrect':'partial'); li.textContent=optv+(isSel?' ← your answer':''); ul.appendChild(li);}); d.appendChild(ul); c.appendChild(d);
+        q.options.forEach(optv=>{const isSel=q.selected_options.includes(optv);if(selOnly&&!isSel)return;const li=document.createElement('li');if(isSel)li.className=q.status==='correct'?'correct':(q.status==='incorrect'?'incorrect':'partial');li.textContent=optv+(isSel?' ← your answer':'');ul.appendChild(li);});d.appendChild(ul);c.appendChild(d);
       });
     }
   </script>
