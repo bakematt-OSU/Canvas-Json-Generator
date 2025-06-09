@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz Review</title>
+  <style>
+    body { font-family: sans-serif; line-height: 1.5; padding: 1rem; }
+    .question { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ccc; border-radius: 4px; }
+    .question h2 { margin: 0 0 .5rem; font-size: 1.2rem; }
+    .status { font-weight: bold; }
+    /* Options are bulleted */
+    .options { list-style: disc; padding-left: 1.5rem; }
+    .options li { margin: .25rem 0; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    .partial { color: orange; }
+    /* Constrain image size */
+    .question img {
+      max-width: 600px;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Review: Module 10 Summary Exercises</h1>
+  <div id="quiz-container">Loading…</div>
+
+  <script>
+  // Fetch JSON using absolute path
+  fetch('/_OUTPUT/extracted_questions_full.json')
+    .then(r => r.json())
+    .then(data => renderQuestions(data))
+    .catch(e => {
+      document.getElementById('quiz-container').textContent =
+        '❌ Failed to load JSON: ' + e;
+    });
+
+  function renderQuestions(questions) {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = ''; // clear "Loading…"
+
+    questions.forEach(q => {
+      const div = document.createElement('div');
+      div.className = 'question';
+
+      // Header: Q#, quiz name, attempt, first/last name
+      const header = document.createElement('h2');
+      header.textContent =
+        `Question ${q.question_number}` +
+        ` – Quiz: "${q.quiz_name}"` +
+        ` – Attempt: "${q.attempt}"` +
+        ` – ${q.first_name}, ${q.last_name}`;
+      div.appendChild(header);
+
+      // Status & score meta
+      const meta = document.createElement('p');
+      meta.innerHTML = `
+        <span class="status ${q.status}">${q.status.toUpperCase()}</span>
+        &mdash; ${q.points_awarded}/${q.points_possible} pts
+      `;
+      div.appendChild(meta);
+
+      // Question body (text + images)
+      q.question_body.forEach(part => {
+        if (part.type === 'text') {
+          const p = document.createElement('p');
+          p.textContent = part.text;
+          div.appendChild(p);
+        }
+        else if (part.type === 'image') {
+          const img = document.createElement('img');
+          // Use absolute path for images
+          img.src = `/_OUTPUT/_images/${part.src}`;
+          img.alt = part.alt || '';
+          div.appendChild(img);
+        }
+      });
+
+      // Options list
+      const ul = document.createElement('ul');
+      ul.className = 'options';
+      q.options.forEach(opt => {
+        const li = document.createElement('li');
+        const isSelected = q.selected_options.includes(opt);
+        if (isSelected) {
+          li.className = q.status === 'correct'
+            ? 'correct'
+            : (q.status === 'incorrect' ? 'incorrect' : 'partial');
+        }
+        li.textContent = opt + (isSelected ? ' ← your answer' : '');
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+
+      container.appendChild(div);
+    });
+  }
+  </script>
+</body>
+</html>
