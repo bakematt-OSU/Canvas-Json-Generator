@@ -6,7 +6,8 @@ Provides a menu-driven CLI to:
   1) Process files (HTML, ZIP, folders)
   2) Toggle quiz webserver (start/stop)
   3) JSON control (backup and clear outputs)
-  4) Exit
+  4) Analyze questions (duplicates, filtering)
+  5) Exit
 """
 import sys
 import os
@@ -15,7 +16,9 @@ import zipfile
 import shutil
 import subprocess
 import shlex
+import json
 from datetime import datetime
+from collections import defaultdict
 
 from extractor import (
     extract_main,
@@ -47,7 +50,8 @@ def prompt_main_menu():
     print("1) Process files")
     print("2) Toggle quiz webserver (start/stop)")
     print("3) Question Backup/Clear")
-    print("4) Exit")
+    print("4) Analyze Questions")
+    print("5) Exit")
     return input("Select an option: ").strip()
 
 def prompt_process_menu():
@@ -260,6 +264,56 @@ def handle_json_control():
         print("Invalid choice. Please select 1-3.\n")
 
 
+# --- Question Analysis ---
+def handle_question_analysis():
+    if not os.path.exists(OUTPUT_JSON):
+        print("No JSON data found. Please process quizzes first.\n")
+        return
+
+    # Load data
+    with open(OUTPUT_JSON, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    # Deduplicate based on question text
+    seen = set()
+    unique_questions = []
+    for entry in data:
+        question_texts = [block['text'] for block in entry.get('question_body', []) if block.get('type') == 'text']
+        question_key = " ".join(question_texts).strip().lower()
+        if question_key not in seen:
+            seen.add(question_key)
+            unique_questions.append(entry)
+
+    # --- Auto-backup (not user-triggered) ---
+    os.makedirs(BACKUP_DIR, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_name = f"auto_backup_dedup_{timestamp}.zip"
+    backup_path = os.path.join(BACKUP_DIR, backup_name)
+    with zipfile.ZipFile(backup_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        if os.path.exists(OUTPUT_JSON):
+            zf.write(OUTPUT_JSON, arcname=os.path.basename(OUTPUT_JSON))
+        if os.path.isdir(EXTRACT_FOLDER):
+            for root, _, files in os.walk(EXTRACT_FOLDER):
+                for file in files:
+                    full_path = os.path.join(root, file)
+                    rel_path = os.path.join(os.path.basename(EXTRACT_FOLDER), os.path.relpath(full_path, EXTRACT_FOLDER))
+                    zf.write(full_path, arcname=rel_path)
+        if os.path.isdir(IMAGES_FOLDER):
+            for root, _, files in os.walk(IMAGES_FOLDER):
+                for file in files:
+                    full_path = os.path.join(root, file)
+                    rel_path = os.path.join(os.path.basename(IMAGES_FOLDER), os.path.relpath(full_path, IMAGES_FOLDER))
+                    zf.write(full_path, arcname=rel_path)
+
+    # Save deduplicated JSON
+    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+        json.dump(unique_questions, f, indent=2)
+
+    print(f"\u2713 Duplicate removal complete. {len(unique_questions)} unique questions saved to {OUTPUT_JSON}")
+    print(f"\u2713 Auto-backup of original data saved to {backup_path}\n")
+
+
+
 # --- Main menu and dispatch ---
 def main_menu():
     while True:
@@ -271,6 +325,8 @@ def main_menu():
         elif choice == "3":
             handle_json_control()
         elif choice == "4":
+            handle_question_analysis()
+        elif choice == "5":
             if server_proc and server_proc.poll() is None:
                 print("Shutting down webserver before exit…")
                 server_proc.terminate()
@@ -278,7 +334,7 @@ def main_menu():
             print("Exiting. Goodbye!")
             sys.exit(0)
         else:
-            print("Invalid choice. Please select 1-4.\n")
+            print("Invalid choice. Please select 1-5.\n")
 
 
 if __name__ == "__main__":
