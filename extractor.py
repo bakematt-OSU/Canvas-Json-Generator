@@ -153,9 +153,37 @@ def extract_questions_from_taken_quiz(
     questions = []
     for idx, q in enumerate(soup.find_all('div', class_='display_question'), start=1):
         opts, sel_opts = [], []
+        # for ans in q.find_all('div', class_='answer'):
+        #     at = ans.find('div', class_='answer_text') or ans.find('div', class_='answer_label')
+        #     text = at.get_text(' ', strip=True) if at else ''
+        #     opts.append(text)
+        #     if 'selected_answer' in ans.get('class', []):
+        #         sel_opts.append(text)
         for ans in q.find_all('div', class_='answer'):
-            at = ans.find('div', class_='answer_text') or ans.find('div', class_='answer_label')
-            text = at.get_text(' ', strip=True) if at else ''
+            text = ''
+            
+            # Handle numerical or text-box inputs (type="text")
+            input_field = ans.find('input', class_='question_input')
+            if input_field and input_field.has_attr('value'):
+                text = input_field['value'].strip()
+
+            # Handle dropdown select (matching questions)
+            elif ans.find('select'):
+                match_prompt = ans.find('div', class_='answer_match_left')
+                selected = ans.find('select').find('option', selected=True)
+                left = match_prompt.get_text(strip=True) if match_prompt else ''
+                right = selected.get_text(strip=True) if selected else ''
+                text = f"{left} → {right}" if left or right else ''
+
+            # Handle normal answer text
+            else:
+                at = ans.find('div', class_='answer_text') or ans.find('div', class_='answer_label')
+                text = at.get_text(' ', strip=True) if at else 'No answer text found.'
+
+            # Clean NBSP just in case
+            text = text.replace('\u00a0', ' ')
+
+            # Append to options
             opts.append(text)
             if 'selected_answer' in ans.get('class', []):
                 sel_opts.append(text)
