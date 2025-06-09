@@ -3,13 +3,15 @@
 canvas_extractor.py
 
 Provides a menu-driven CLI to:
-  1) Manage file processing (HTML, ZIP, folders)
-  2) Serve quizzes (webserver)
+  1) Process files (HTML, ZIP, folders)
+  2) Serve quizzes (webserver start/stop)
 """
 import sys
 import os
 import argparse
 import zipfile
+import subprocess
+import shlex
 from extractor import (
     extract_main,
     ZIP_FILE,
@@ -19,31 +21,44 @@ from extractor import (
     extract_questions_from_taken_quiz,
     write_json
 )
-from serve_quiz import (
-    serve_quiz,
-    main as serve_main
-)
 
-# Default input directory for files
+# Path to the web_serve script
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SERVE_SCRIPT = os.path.join(SCRIPT_DIR, 'web_serve.py')
+
+# Default input directory for files and server settings
 INPUT_DIR = '_INPUT'
+SERVER_HOST = 'localhost'
+SERVER_PORT = 8000
+SERVER_URL = f"http://{SERVER_HOST}:{SERVER_PORT}/index.html"
+# Global process handle for the server
+server_proc = None
 
 
 def prompt_main_menu():
+    # Show webserver status
+    running = server_proc and server_proc.poll() is None
+    if running:
+        status = f'RUNNING at {SERVER_URL}'
+    else:
+        status = 'STOPPED'
     print("=== Canvas Study Tools Utility ===")
+    print(f"Webserver status: {status}")
     print("1) Process files")
-    print("2) Serve quizzes (webserver)")
+    print("2) Toggle quiz webserver (start/stop)")
     print("3) Exit")
     return input("Select an option: ").strip()
 
 
 def prompt_process_menu():
     print("\n-- Process Files in the Input Folder --")
-    print("1) Select Indivdual HTML files")
-    print("2) ZIP HTML files")
-    print("3) Folder of HTML files")
+    print("1) Select individual HTML files")
+    print("2) ZIP archives")
+    print("3) Folders of HTML files")
     print("4) Back to main menu")
     return input("Select an option: ").strip()
 
+# Listing utilities
 
 def list_input_html():
     try:
@@ -89,6 +104,7 @@ def list_input_folders():
         print(f"No folders found in '{INPUT_DIR}'.")
     return folders
 
+# Processing routines
 
 def handle_process_html_selection(html_files):
     if not html_files:
@@ -157,18 +173,33 @@ def handle_process_menu():
         else:
             print("Invalid choice. Please select 1-4.\n")
 
+# Webserver toggle
 
-def handle_serve_quizzes():
-    print("\n-- Serve Quizzes --")
-    # Default to the folder where OUTPUT_JSON lives
-    default_dir = os.path.abspath(os.path.dirname(OUTPUT_JSON))
-    directory =  default_dir
-    port_input = input("Port number [8000]: ").strip()
-    port = int(port_input) if port_input.isdigit() else 8000
-    no_open_input = input("Open browser automatically? (Y/n): ").strip().lower()
-    no_open = (no_open_input == 'n')
-    serve_quiz(directory, port, no_open)
+def handle_toggle_server():
+    global server_proc
+    if server_proc and server_proc.poll() is None:
+        # Server is running; stop it
+        print("Stopping webserver…")
+        server_proc.terminate()
+        server_proc.wait()
+        server_proc = None
+        print("Webserver stopped.\n")
+    else:
+        # Start the server in background
+        # default_dir = os.path.abspath(os.path.dirname(OUTPUT_JSON))
+        default_dir = os.path.abspath(os.path.dirname(__file__))
+        cmd = (
+            f"{shlex.quote(sys.executable)} "
+            f"{shlex.quote(SERVE_SCRIPT)} --directory {shlex.quote(default_dir)}"
+            f" --port {SERVER_PORT}"
+        )
+        print(f"Starting webserver on port {SERVER_PORT} serving '{default_dir}'…")
+        server_proc = subprocess.Popen(cmd, shell=True,
+                               stdout=subprocess.DEVNULL,
+                               stderr=subprocess.DEVNULL)
+        print(f"Webserver running (PID {server_proc.pid}). Access it at {SERVER_URL}\n")
 
+# Main menu and dispatch
 
 def main_menu():
     while True:
@@ -176,23 +207,29 @@ def main_menu():
         if choice == '1':
             handle_process_menu()
         elif choice == '2':
-            handle_serve_quizzes()
+            handle_toggle_server()
         elif choice == '3':
+            # Ensure we clean up server
+            if server_proc and server_proc.poll() is None:
+                print("Shutting down webserver before exit…")
+                server_proc.terminate()
+                server_proc.wait()
             print("Exiting. Goodbye!")
             sys.exit(0)
         else:
             print("Invalid choice. Please select 1-3.\n")
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Canvas quiz extractor and server menu")
     parser.add_argument('--extract', action='store_true', help='Process HTML files immediately')
-    parser.add_argument('--serve', action='store_true', help='Serve quizzes immediately')
+    parser.add_argument('--serve', action='store_true', help='Start quiz webserver immediately')
     args = parser.parse_args()
 
     if args.extract:
         handle_process_html()
+        main_menu()
     elif args.serve:
-        handle_serve_quizzes()
+        handle_toggle_server()
+        main_menu()
     else:
         main_menu()

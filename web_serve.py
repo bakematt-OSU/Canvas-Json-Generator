@@ -31,7 +31,6 @@ def serve_quiz(directory: str = None, port: int = 8000, no_open: bool = False):
     with socketserver.TCPServer(("", port), handler) as httpd:
         url = f"http://localhost:{port}/index.html"
         print(f"Serving HTTP at {url}")
-
         # Try to open the browser unless disabled
         if not no_open:
             try:
