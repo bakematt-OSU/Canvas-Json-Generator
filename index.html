@@ -1,152 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Quiz Review</n>
-    <style>
-      /* Theme variables */
-      :root {
-        --bg: #ffffff;
-        --fg: #000000;
-        --card-bg: #f5f5f5;
-        --border: #ccc;
-        --img-bg: #fff;
-        --btn-bg: #e0e0e0;
-        --btn-fg: #000000;
-      }
-
-      body.dark {
-        --bg: #121212;
-        --fg: #e0e0e0;
-        --card-bg: #1e1e1e;
-        --border: #444;
-        --img-bg: #000;
-        --btn-bg: #333;
-        --btn-fg: #e0e0e0;
-      }
-
-      /* Base styles */
-      body {
-        background-color: var(--bg);
-        color: var(--fg);
-        font-family: sans-serif;
-        line-height: 1.5;
-        padding: 1rem;
-        transition: background-color 0.3s, color 0.3s;
-      }
-
-      h1 {
-        text-align: center;
-      }
-
-      /* Toggle button */
-      #toggle-theme {
-        background-color: var(--btn-bg);
-        color: var(--btn-fg);
-        border: none;
-        padding: 0.5rem 1rem;
-        margin: 0 auto 1rem;
-        display: block;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: background-color 0.3s, color 0.3s;
-      }
-
-      /* Filter controls */
-      #filters {
-        width: 75%;
-        margin: 0 auto 1rem;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      #filters label,
-      #filters select,
-      #filters input {
-        margin-right: 0.5rem;
-      }
-
-      /* Quiz container centering */
-      #quiz-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      /* Question card styling */
-      .question {
-        width: 75%;
-        margin: 1rem auto;
-        padding: 1rem;
-        border: 1px solid var(--border);
-        border-radius: 4px;
-        background-color: var(--card-bg);
-        transition: background-color 0.3s, border-color 0.3s;
-      }
-
-      .question h2 {
-        margin: 0 0 .5rem;
-        font-size: 1.2rem;
-        text-align: center;
-      }
-
-      .status {
-        font-weight: bold;
-      }
-
-      /* Bulleted options */
-      .options {
-        list-style: disc;
-        padding-left: 1.5rem;
-      }
-
-      .options li {
-        margin: .25rem 0;
-      }
-
-      /* Answer status colors */
-      .correct {
-        color: #4caf50;
-      }
-
-      .incorrect {
-        color: #f44336;
-      }
-
-      .partial {
-        color: #ff9800;
-      }
-
-      /* Constrain image size */
-      .question img {
-        max-width: 600px;
-        width: auto;
-        height: auto;
-        display: block;
-        margin: 1rem auto;
-        border: 1px solid var(--border);
-        background-color: var(--img-bg);
-        transition: background-color 0.3s, border-color 0.3s;
-      }
-    </style>
+  <title>Quiz Review</title>
+  <style>
+    /* Theme variables */
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --card-bg: #f5f5f5;
+      --border: #ccc;
+      --img-bg: #fff;
+      --btn-bg: #e0e0e0;
+      --btn-fg: #000000;
+    }
+    body.dark {
+      --bg: #121212;
+      --fg: #e0e0e0;
+      --card-bg: #1e1e1e;
+      --border: #444;
+      --img-bg: #000;
+      --btn-bg: #333;
+      --btn-fg: #e0e0e0;
+    }
+    /* Base styles */
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: sans-serif;
+      line-height: 1.5;
+      padding: 1rem;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    h1 { text-align: center; }
+    /* Toggle button */
+    #toggle-theme {
+      background-color: var(--btn-bg);
+      color: var(--btn-fg);
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0 auto 1rem;
+      display: block;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    /* Filter controls */
+    #filters {
+      width: 75%;
+      margin: 0 auto 1rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    #filters label, #filters select, #filters input {
+      margin-right: 0.5rem;
+    }
+    #filters input[type="search"] {
+      flex: 1;
+      min-width: 150px;
+    }
+    /* Quiz container centering */
+    #quiz-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Question card styling */
+    .question {
+      width: 75%;
+      margin: 1rem auto;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background-color: var(--card-bg);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .question h2 {
+      margin: 0 0 .5rem;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+    .status { font-weight: bold; }
+    /* Bulleted options */
+    .options {
+      list-style: disc;
+      padding-left: 1.5rem;
+    }
+    .options li { margin: .25rem 0; }
+    /* Answer status colors */
+    .correct { color: #4caf50; }
+    .incorrect { color: #f44336; }
+    .partial { color: #ff9800; }
+    /* Constrain image size */
+    .question img {
+      max-width: 600px;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 1rem auto;
+      border: 1px solid var(--border);
+      background-color: var(--img-bg);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+  </style>
 </head>
-
 <body class="dark">
   <h1>Review: Module 10 Summary Exercises</h1>
   <button id="toggle-theme">Switch to Light Mode</button>
 
   <div id="filters">
+    <label>Search: <input type="search" id="filter-text" placeholder="Search question text..." list="suggestions"></label>
+    <datalist id="suggestions"></datalist>
     <label>Question #: <input type="number" id="filter-question" min="1" placeholder="Any"></label>
-    <label>Quiz: <select id="filter-quiz">
-        <option>All</option>
-      </select></label>
-    <label>User: <select id="filter-user">
-        <option>All</option>
-      </select></label>
+    <label>Quiz: <select id="filter-quiz"><option>All</option></select></label>
+    <label>User: <select id="filter-user"><option>All</option></select></label>
   </div>
 
   <div id="quiz-container">Loading…</div>
@@ -199,17 +169,46 @@
       });
 
       // Attach filter events
+      document.getElementById('filter-text').addEventListener('input', onSearchInput);
       document.getElementById('filter-question').addEventListener('input', applyFilters);
       quizSelect.addEventListener('change', applyFilters);
       userSelect.addEventListener('change', applyFilters);
     }
 
+    function onSearchInput(e) {
+      const val = e.target.value.trim().toLowerCase();
+      const dl = document.getElementById('suggestions');
+      dl.innerHTML = '';
+      if (!val) {
+        applyFilters();
+        return;
+      }
+      // Populate suggestions based on question text
+      const matches = allQuestions.filter(q => {
+        const txt = q.question_body.filter(p => p.type === 'text').map(p => p.text).join(' ').toLowerCase();
+        return txt.includes(val);
+      }).slice(0, 10);
+      matches.forEach(q => {
+        const firstText = q.question_body.find(p => p.type === 'text');
+        const snippet = firstText ? firstText.text.substring(0, 50) + '...' : '';
+        const opt = document.createElement('option');
+        opt.value = snippet;
+        dl.appendChild(opt);
+      });
+      applyFilters();
+    }
+
     function applyFilters() {
+      const searchText = document.getElementById('filter-text').value.trim().toLowerCase();
       const qNum = document.getElementById('filter-question').value;
       const quiz = document.getElementById('filter-quiz').value;
       const user = document.getElementById('filter-user').value;
 
       const filtered = allQuestions.filter(q => {
+        if (searchText) {
+          const fullText = q.question_body.filter(p => p.type === 'text').map(p => p.text).join(' ').toLowerCase();
+          if (!fullText.includes(searchText)) return false;
+        }
         if (qNum && q.question_number !== Number(qNum)) return false;
         if (quiz !== 'All' && q.quiz_name !== quiz) return false;
         const fullName = `${q.first_name} ${q.last_name}`;
@@ -222,7 +221,6 @@
     function renderQuestions(questions) {
       const container = document.getElementById('quiz-container');
       container.innerHTML = '';
-
       questions.forEach(q => {
         const div = document.createElement('div');
         div.className = 'question';
@@ -239,8 +237,8 @@
         // Meta
         const meta = document.createElement('p');
         meta.innerHTML =
-          `<span class="status ${q.status}">${q.status.toUpperCase()}</span>` +
-          ` &mdash; ${q.points_awarded}/${q.points_possible} pts`;
+          `<span class="status ${q.status}">${q.status.toUpperCase()}</span>` +
+          ` — ${q.points_awarded}/${q.points_possible} pts`;
         div.appendChild(meta);
 
         // Body
@@ -266,21 +264,19 @@
           if (isSelected) {
             li.className =
               q.status === 'correct' ? 'correct' :
-                (q.status === 'incorrect' ? 'incorrect' : 'partial');
+              (q.status === 'incorrect' ? 'incorrect' : 'partial');
           }
-          li.textContent = opt + (isSelected ? ' ← your answer' : '');
+          li.textContent = opt + (isSelected ? ' ← your answer' : '');
           ul.appendChild(li);
         });
         div.appendChild(ul);
 
         container.appendChild(div);
       });
-
       if (questions.length === 0) {
         container.textContent = 'No questions match the selected filters.';
       }
     }
   </script>
 </body>
-
 </html>
