@@ -1,104 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Quiz Review</title>
-  <style>
-    body { font-family: sans-serif; line-height: 1.5; padding: 1rem; }
-    .question { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ccc; border-radius: 4px; }
-    .question h2 { margin: 0 0 .5rem; font-size: 1.2rem; }
-    .status { font-weight: bold; }
-    /* Options are bulleted */
-    .options { list-style: disc; padding-left: 1.5rem; }
-    .options li { margin: .25rem 0; }
-    .correct { color: green; }
-    .incorrect { color: red; }
-    .partial { color: orange; }
-    /* Constrain image size */
-    .question img {
-      max-width: 600px;
-      width: auto;
-      height: auto;
-      display: block;
-      margin: 1rem 0;
-    }
-  </style>
+  <title>Quiz Review</n>
+    <style>
+      /* Theme variables */
+      :root {
+        --bg: #ffffff;
+        --fg: #000000;
+        --card-bg: #f5f5f5;
+        --border: #ccc;
+        --img-bg: #fff;
+        --btn-bg: #e0e0e0;
+        --btn-fg: #000000;
+      }
+
+      body.dark {
+        --bg: #121212;
+        --fg: #e0e0e0;
+        --card-bg: #1e1e1e;
+        --border: #444;
+        --img-bg: #000;
+        --btn-bg: #333;
+        --btn-fg: #e0e0e0;
+      }
+
+      /* Base styles */
+      body {
+        background-color: var(--bg);
+        color: var(--fg);
+        font-family: sans-serif;
+        line-height: 1.5;
+        padding: 1rem;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      /* Toggle button */
+      #toggle-theme {
+        background-color: var(--btn-bg);
+        color: var(--btn-fg);
+        border: none;
+        padding: 0.5rem 1rem;
+        margin: 0 auto 1rem;
+        display: block;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      /* Filter controls */
+      #filters {
+        width: 75%;
+        margin: 0 auto 1rem;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      #filters label,
+      #filters select,
+      #filters input {
+        margin-right: 0.5rem;
+      }
+
+      /* Quiz container centering */
+      #quiz-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Question card styling */
+      .question {
+        width: 75%;
+        margin: 1rem auto;
+        padding: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background-color: var(--card-bg);
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+
+      .question h2 {
+        margin: 0 0 .5rem;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+
+      .status {
+        font-weight: bold;
+      }
+
+      /* Bulleted options */
+      .options {
+        list-style: disc;
+        padding-left: 1.5rem;
+      }
+
+      .options li {
+        margin: .25rem 0;
+      }
+
+      /* Answer status colors */
+      .correct {
+        color: #4caf50;
+      }
+
+      .incorrect {
+        color: #f44336;
+      }
+
+      .partial {
+        color: #ff9800;
+      }
+
+      /* Constrain image size */
+      .question img {
+        max-width: 600px;
+        width: auto;
+        height: auto;
+        display: block;
+        margin: 1rem auto;
+        border: 1px solid var(--border);
+        background-color: var(--img-bg);
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+    </style>
 </head>
-<body>
+
+<body class="dark">
   <h1>Review: Module 10 Summary Exercises</h1>
+  <button id="toggle-theme">Switch to Light Mode</button>
+
+  <div id="filters">
+    <label>Question #: <input type="number" id="filter-question" min="1" placeholder="Any"></label>
+    <label>Quiz: <select id="filter-quiz">
+        <option>All</option>
+      </select></label>
+    <label>User: <select id="filter-user">
+        <option>All</option>
+      </select></label>
+  </div>
+
   <div id="quiz-container">Loading…</div>
 
   <script>
-  // Fetch JSON using absolute path
-  fetch('/_OUTPUT/extracted_questions_full.json')
-    .then(r => r.json())
-    .then(data => renderQuestions(data))
-    .catch(e => {
-      document.getElementById('quiz-container').textContent =
-        '❌ Failed to load JSON: ' + e;
+    let allQuestions = [];
+
+    // Theme toggle handler
+    document.getElementById('toggle-theme').addEventListener('click', () => {
+      const body = document.body;
+      const btn = document.getElementById('toggle-theme');
+      if (body.classList.toggle('dark')) {
+        btn.textContent = 'Switch to Light Mode';
+      } else {
+        btn.textContent = 'Switch to Dark Mode';
+      }
     });
 
-  function renderQuestions(questions) {
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = ''; // clear "Loading…"
-
-    questions.forEach(q => {
-      const div = document.createElement('div');
-      div.className = 'question';
-
-      // Header: Q#, quiz name, attempt, first/last name
-      const header = document.createElement('h2');
-      header.textContent =
-        `Question ${q.question_number}` +
-        ` – Quiz: "${q.quiz_name}"` +
-        ` – Attempt: "${q.attempt}"` +
-        ` – ${q.first_name}, ${q.last_name}`;
-      div.appendChild(header);
-
-      // Status & score meta
-      const meta = document.createElement('p');
-      meta.innerHTML = `
-        <span class="status ${q.status}">${q.status.toUpperCase()}</span>
-        &mdash; ${q.points_awarded}/${q.points_possible} pts
-      `;
-      div.appendChild(meta);
-
-      // Question body (text + images)
-      q.question_body.forEach(part => {
-        if (part.type === 'text') {
-          const p = document.createElement('p');
-          p.textContent = part.text;
-          div.appendChild(p);
-        }
-        else if (part.type === 'image') {
-          const img = document.createElement('img');
-          // Use absolute path for images
-          img.src = `/_OUTPUT/_images/${part.src}`;
-          img.alt = part.alt || '';
-          div.appendChild(img);
-        }
+    // Fetch, initialize filters and render
+    fetch('/_OUTPUT/extracted_questions_full.json')
+      .then(r => r.json())
+      .then(data => {
+        allQuestions = data;
+        initFilters(data);
+        applyFilters();
+      })
+      .catch(e => {
+        document.getElementById('quiz-container').textContent =
+          '❌ Failed to load JSON: ' + e;
       });
 
-      // Options list
-      const ul = document.createElement('ul');
-      ul.className = 'options';
-      q.options.forEach(opt => {
-        const li = document.createElement('li');
-        const isSelected = q.selected_options.includes(opt);
-        if (isSelected) {
-          li.className = q.status === 'correct'
-            ? 'correct'
-            : (q.status === 'incorrect' ? 'incorrect' : 'partial');
-        }
-        li.textContent = opt + (isSelected ? ' ← your answer' : '');
-        ul.appendChild(li);
+    function initFilters(data) {
+      const quizSet = new Set();
+      const userSet = new Set();
+      data.forEach(q => {
+        quizSet.add(q.quiz_name);
+        userSet.add(`${q.first_name} ${q.last_name}`);
       });
-      div.appendChild(ul);
+      const quizSelect = document.getElementById('filter-quiz');
+      quizSet.forEach(name => {
+        const opt = document.createElement('option');
+        opt.textContent = name;
+        quizSelect.appendChild(opt);
+      });
+      const userSelect = document.getElementById('filter-user');
+      userSet.forEach(user => {
+        const opt = document.createElement('option');
+        opt.textContent = user;
+        userSelect.appendChild(opt);
+      });
 
-      container.appendChild(div);
-    });
-  }
+      // Attach filter events
+      document.getElementById('filter-question').addEventListener('input', applyFilters);
+      quizSelect.addEventListener('change', applyFilters);
+      userSelect.addEventListener('change', applyFilters);
+    }
+
+    function applyFilters() {
+      const qNum = document.getElementById('filter-question').value;
+      const quiz = document.getElementById('filter-quiz').value;
+      const user = document.getElementById('filter-user').value;
+
+      const filtered = allQuestions.filter(q => {
+        if (qNum && q.question_number !== Number(qNum)) return false;
+        if (quiz !== 'All' && q.quiz_name !== quiz) return false;
+        const fullName = `${q.first_name} ${q.last_name}`;
+        if (user !== 'All' && fullName !== user) return false;
+        return true;
+      });
+      renderQuestions(filtered);
+    }
+
+    function renderQuestions(questions) {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+
+      questions.forEach(q => {
+        const div = document.createElement('div');
+        div.className = 'question';
+
+        // Header
+        const header = document.createElement('h2');
+        header.textContent =
+          `Question ${q.question_number}` +
+          ` – Quiz: "${q.quiz_name}"` +
+          ` – Attempt: "${q.attempt}"` +
+          ` – ${q.first_name}, ${q.last_name}`;
+        div.appendChild(header);
+
+        // Meta
+        const meta = document.createElement('p');
+        meta.innerHTML =
+          `<span class="status ${q.status}">${q.status.toUpperCase()}</span>` +
+          ` &mdash; ${q.points_awarded}/${q.points_possible} pts`;
+        div.appendChild(meta);
+
+        // Body
+        q.question_body.forEach(part => {
+          if (part.type === 'text') {
+            const p = document.createElement('p');
+            p.textContent = part.text;
+            div.appendChild(p);
+          } else if (part.type === 'image') {
+            const img = document.createElement('img');
+            img.src = '/_OUTPUT/_images/' + part.src;
+            img.alt = part.alt || '';
+            div.appendChild(img);
+          }
+        });
+
+        // Options
+        const ul = document.createElement('ul');
+        ul.className = 'options';
+        q.options.forEach(opt => {
+          const li = document.createElement('li');
+          const isSelected = q.selected_options.includes(opt);
+          if (isSelected) {
+            li.className =
+              q.status === 'correct' ? 'correct' :
+                (q.status === 'incorrect' ? 'incorrect' : 'partial');
+          }
+          li.textContent = opt + (isSelected ? ' ← your answer' : '');
+          ul.appendChild(li);
+        });
+        div.appendChild(ul);
+
+        container.appendChild(div);
+      });
+
+      if (questions.length === 0) {
+        container.textContent = 'No questions match the selected filters.';
+      }
+    }
   </script>
 </body>
+
 </html>
