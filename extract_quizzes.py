@@ -56,6 +56,24 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
     with open(html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f, 'html.parser')
 
+    # — CLASS INFO FROM BREADCRUMBS
+    class_name = class_code = section = term = year = None
+    crumbs_li = soup.select_one('div.ic-app-crumbs nav#breadcrumbs ul li:nth-of-type(2) span.ellipsible')
+    if crumbs_li:
+        course_label = crumbs_li.get_text(strip=True)
+        m_cls = re.match(r'^(.*?)\s*\(([^)]+)\)$', course_label)
+        if m_cls:
+            class_name = m_cls.group(1).strip()
+            parts = m_cls.group(2).split('_')
+            if len(parts) == 4:
+                # parts: [dept, code, section, termYear]
+                class_code = f"{parts[0]}_{parts[1]}"
+                section = parts[2]
+                term_year = parts[3]
+                term_map = {'S': 'Spring', 'W': 'Winter', 'F': 'Fall', 'U': 'Summer'}
+                term = term_map.get(term_year[0], 'Unknown')
+                year = term_year[1:]
+
     # — HEADER: QUIZ & STUDENT
     quiz_name = ''
     first_name = last_name = None
@@ -110,7 +128,7 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
         # — QUESTION ID
         question_id = f"{quiz_slug}_att{attempt}_q{idx:02d}" if quiz_slug and attempt is not None else None
 
-                        # — QUESTION BODY & IMAGES — recursive capture of text & images
+        # — QUESTION BODY & IMAGES — recursive capture of text & images
         qt_div = q.find('div', class_='question_text')
         question_body = []
         img_counter = 1
@@ -118,14 +136,11 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
         if qt_div:
             for node_type, node in iter_qt_content(qt_div):
                 if node_type == 'text':
-                    # accumulate text
                     text_buf += (' ' if text_buf else '') + node
                 else:
-                    # flush buffered text before image
                     if text_buf.strip():
                         question_body.append({'type': 'text', 'text': text_buf.strip()})
                         text_buf = ''
-                    # handle image copying
                     src = node.get('src') or node.get('data-src') or ''
                     if src:
                         if src.startswith(('http://', 'https://')):
@@ -136,13 +151,17 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
                         if img_ref:
                             question_body.append({'type': 'image', 'src': img_ref})
                             img_counter += 1
-            # flush remaining text
             if text_buf.strip():
                 question_body.append({'type': 'text', 'text': text_buf.strip()})
 
         questions.append({
             'first_name':        first_name,
             'last_name':         last_name,
+            'class_name':        class_name,
+            'class':             class_code,
+            'section':           section,
+            'term':              term,
+            'year':              year,
             'quiz_name':         quiz_name,
             'attempt':           attempt,  
             'question_id':       question_id,  
