@@ -50,7 +50,6 @@ def prompt_main_menu():
     print("4) Exit")
     return input("Select an option: ").strip()
 
-
 def prompt_process_menu():
     print("\n-- Process Files in the Input Folder --")
     print("1) Select individual HTML files")
@@ -58,7 +57,6 @@ def prompt_process_menu():
     print("3) Folders of HTML files")
     print("4) Back to main menu")
     return input("Select an option: ").strip()
-
 
 def prompt_json_menu():
     print("\n-- Question Backup/Clear --")
@@ -83,7 +81,6 @@ def list_input_html():
         print(f"No HTML files found in '{INPUT_DIR}'.")
     return files
 
-
 def list_input_zips():
     try:
         zips = [f for f in os.listdir(INPUT_DIR) if f.lower().endswith(".zip")]
@@ -97,7 +94,6 @@ def list_input_zips():
     else:
         print(f"No ZIP files found in '{INPUT_DIR}'.")
     return zips
-
 
 def list_input_folders():
     try:
@@ -129,9 +125,8 @@ def handle_process_html_selection(html_files):
         print(f"Parsing {html}…")
         all_questions.extend(extract_questions_from_taken_quiz(html, IMAGES_FOLDER))
     write_json(all_questions, OUTPUT_JSON)
-    print(f"✔ Processed {len(all_questions)} questions to {OUTPUT_JSON}")
-    print(f"✔ Images saved in {IMAGES_FOLDER}\n")
-
+    print(f"\u2713 Processed {len(all_questions)} questions to {OUTPUT_JSON}")
+    print(f"\u2713 Images saved in {IMAGES_FOLDER}\n")
 
 def handle_process_html():
     files = list_input_html()
@@ -143,7 +138,6 @@ def handle_process_html():
         os.path.join(INPUT_DIR, files[i]) for i in indices if 0 <= i < len(files)
     ]
     handle_process_html_selection(html_files)
-
 
 def handle_process_zips():
     zips = list_input_zips()
@@ -157,7 +151,6 @@ def handle_process_zips():
             print(f"\nExtracting from {zip_path}…")
             extract_main(zip_path, EXTRACT_FOLDER, OUTPUT_JSON, IMAGES_FOLDER)
     print()
-
 
 def handle_process_folders():
     folders = list_input_folders()
@@ -173,20 +166,18 @@ def handle_process_folders():
             html_files.extend(os.path.join(folder_path, f) for f in files)
     handle_process_html_selection(html_files)
 
-
 def handle_process_menu():
-    while True:
-        choice = prompt_process_menu()
-        if choice == "1":
-            handle_process_html()
-        elif choice == "2":
-            handle_process_zips()
-        elif choice == "3":
-            handle_process_folders()
-        elif choice == "4":
-            return
-        else:
-            print("Invalid choice. Please select 1-4.\n")
+    choice = prompt_process_menu()
+    if choice == "1":
+        handle_process_html()
+    elif choice == "2":
+        handle_process_zips()
+    elif choice == "3":
+        handle_process_folders()
+    elif choice == "4":
+        return
+    else:
+        print("Invalid choice. Please select 1-4.\n")
 
 
 # --- Server toggle ---
@@ -218,10 +209,8 @@ def backup_json_and_images():
     zip_name = f"backup_{timestamp}.zip"
     backup_path = os.path.join(BACKUP_DIR, zip_name)
     with zipfile.ZipFile(backup_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        # Backup JSON
         if os.path.exists(OUTPUT_JSON):
             zf.write(OUTPUT_JSON, arcname=os.path.basename(OUTPUT_JSON))
-        # Backup extracted quizzes folder
         if os.path.isdir(EXTRACT_FOLDER):
             for root, _, files in os.walk(EXTRACT_FOLDER):
                 for file in files:
@@ -231,7 +220,6 @@ def backup_json_and_images():
                         os.path.relpath(full_path, EXTRACT_FOLDER),
                     )
                     zf.write(full_path, arcname=rel_path)
-        # Backup images
         if os.path.isdir(IMAGES_FOLDER):
             for root, _, files in os.walk(IMAGES_FOLDER):
                 for file in files:
@@ -241,8 +229,7 @@ def backup_json_and_images():
                         os.path.relpath(full_path, IMAGES_FOLDER),
                     )
                     zf.write(full_path, arcname=rel_path)
-    print(f"✔ Backup created at {backup_path}\n")
-
+    print(f"\u2713 Backup created at {backup_path}\n")
 
 def clear_output_folder():
     confirm = input(
@@ -250,29 +237,27 @@ def clear_output_folder():
     ).strip()
     if confirm != "YES":
         print("Clear cancelled. No files were deleted.\n")
-        return
-    if os.path.isdir(EXTRACT_FOLDER):
-        shutil.rmtree(EXTRACT_FOLDER)
-    if os.path.isdir(IMAGES_FOLDER):
-        shutil.rmtree(IMAGES_FOLDER)
-    if os.path.exists(OUTPUT_JSON):
-        os.remove(OUTPUT_JSON)
-    os.makedirs(EXTRACT_FOLDER, exist_ok=True)
-    os.makedirs(IMAGES_FOLDER, exist_ok=True)
-    print("✔ Output folder cleared and ready for new data.\n")
-
+    else:
+        if os.path.isdir(EXTRACT_FOLDER):
+            shutil.rmtree(EXTRACT_FOLDER)
+        if os.path.isdir(IMAGES_FOLDER):
+            shutil.rmtree(IMAGES_FOLDER)
+        if os.path.exists(OUTPUT_JSON):
+            os.remove(OUTPUT_JSON)
+        os.makedirs(EXTRACT_FOLDER, exist_ok=True)
+        os.makedirs(IMAGES_FOLDER, exist_ok=True)
+        print("\u2713 Output folder cleared and ready for new data.\n")
 
 def handle_json_control():
-    while True:
-        choice = prompt_json_menu()
-        if choice == "1":
-            backup_json_and_images()
-        elif choice == "2":
-            clear_output_folder()
-        elif choice == "3":
-            return
-        else:
-            print("Invalid choice. Please select 1-3.\n")
+    choice = prompt_json_menu()
+    if choice == "1":
+        backup_json_and_images()
+    elif choice == "2":
+        clear_output_folder()
+    elif choice == "3":
+        return
+    else:
+        print("Invalid choice. Please select 1-3.\n")
 
 
 # --- Main menu and dispatch ---
@@ -297,15 +282,9 @@ def main_menu():
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Canvas quiz extractor and server menu"
-    )
-    parser.add_argument(
-        "--extract", action="store_true", help="Process HTML files immediately"
-    )
-    parser.add_argument(
-        "--serve", action="store_true", help="Start quiz webserver immediately"
-    )
+    parser = argparse.ArgumentParser(description="Canvas quiz extractor and server menu")
+    parser.add_argument("--extract", action="store_true", help="Process HTML files immediately")
+    parser.add_argument("--serve", action="store_true", help="Start quiz webserver immediately")
     args = parser.parse_args()
 
     if args.extract:
