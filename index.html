@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -15,6 +16,7 @@
       --btn-bg: #e0e0e0;
       --btn-fg: #000000;
     }
+
     body.dark {
       --bg: #121212;
       --fg: #e0e0e0;
@@ -24,6 +26,7 @@
       --btn-bg: #333;
       --btn-fg: #e0e0e0;
     }
+
     /* Base styles */
     body {
       background-color: var(--bg);
@@ -33,7 +36,11 @@
       padding: 1rem;
       transition: background-color 0.3s, color 0.3s;
     }
-    h1 { text-align: center; }
+
+    h1 {
+      text-align: center;
+    }
+
     /* Toggle button */
     #toggle-theme {
       background-color: var(--btn-bg);
@@ -46,6 +53,7 @@
       border-radius: 4px;
       transition: background-color 0.3s, color 0.3s;
     }
+
     /* Filter controls */
     #filters {
       width: 75%;
@@ -55,19 +63,25 @@
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    #filters label, #filters select, #filters input {
+
+    #filters label,
+    #filters select,
+    #filters input {
       margin-right: 0.5rem;
     }
+
     #filters input[type="search"] {
       flex: 1;
       min-width: 150px;
     }
+
     /* Quiz container centering */
     #quiz-container {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+
     /* Question card styling */
     .question {
       width: 75%;
@@ -78,22 +92,40 @@
       background-color: var(--card-bg);
       transition: background-color 0.3s, border-color 0.3s;
     }
+
     .question h2 {
       margin: 0 0 .5rem;
       font-size: 1.2rem;
       text-align: center;
     }
-    .status { font-weight: bold; }
+
+    .status {
+      font-weight: bold;
+    }
+
     /* Bulleted options */
     .options {
       list-style: disc;
       padding-left: 1.5rem;
     }
-    .options li { margin: .25rem 0; }
+
+    .options li {
+      margin: .25rem 0;
+    }
+
     /* Answer status colors */
-    .correct { color: #4caf50; }
-    .incorrect { color: #f44336; }
-    .partial { color: #ff9800; }
+    .correct {
+      color: #4caf50;
+    }
+
+    .incorrect {
+      color: #f44336;
+    }
+
+    .partial {
+      color: #ff9800;
+    }
+
     /* Constrain image size */
     .question img {
       max-width: 600px;
@@ -107,16 +139,22 @@
     }
   </style>
 </head>
+
 <body class="dark">
-  <h1>Review: Module 10 Summary Exercises</h1>
+  <h1>Canvas Quiz Extractor Viewer</h1>
   <button id="toggle-theme">Switch to Light Mode</button>
 
   <div id="filters">
-    <label>Search: <input type="search" id="filter-text" placeholder="Search question text..." list="suggestions"></label>
+    <label>Search: <input type="search" id="filter-text" placeholder="Search question text or options..."
+        list="suggestions"></label>
     <datalist id="suggestions"></datalist>
     <label>Question #: <input type="number" id="filter-question" min="1" placeholder="Any"></label>
-    <label>Quiz: <select id="filter-quiz"><option>All</option></select></label>
-    <label>User: <select id="filter-user"><option>All</option></select></label>
+    <label>Quiz: <select id="filter-quiz">
+        <option>All</option>
+      </select></label>
+    <label>User: <select id="filter-user">
+        <option>All</option>
+      </select></label>
   </div>
 
   <div id="quiz-container">Loading…</div>
@@ -177,20 +215,24 @@
 
     function onSearchInput(e) {
       const val = e.target.value.trim().toLowerCase();
+      const container = document.getElementById('quiz-container');
+      container.textContent = 'Searching…';
       const dl = document.getElementById('suggestions');
       dl.innerHTML = '';
       if (!val) {
         applyFilters();
         return;
       }
-      // Populate suggestions based on question text
+      // Populate suggestions based on body and options
       const matches = allQuestions.filter(q => {
-        const txt = q.question_body.filter(p => p.type === 'text').map(p => p.text).join(' ').toLowerCase();
-        return txt.includes(val);
+        const bodyText = q.question_body.filter(p => p.type === 'text')
+          .map(p => p.text).join(' ').toLowerCase();
+        const optionsText = q.options.join(' ').toLowerCase();
+        return bodyText.includes(val) || optionsText.includes(val);
       }).slice(0, 10);
       matches.forEach(q => {
-        const firstText = q.question_body.find(p => p.type === 'text');
-        const snippet = firstText ? firstText.text.substring(0, 50) + '...' : '';
+        const firstBody = q.question_body.find(p => p.type === 'text');
+        const snippet = firstBody ? firstBody.text.substring(0, 50) + '...' : q.options[0] || '';
         const opt = document.createElement('option');
         opt.value = snippet;
         dl.appendChild(opt);
@@ -206,8 +248,10 @@
 
       const filtered = allQuestions.filter(q => {
         if (searchText) {
-          const fullText = q.question_body.filter(p => p.type === 'text').map(p => p.text).join(' ').toLowerCase();
-          if (!fullText.includes(searchText)) return false;
+          const bodyText = q.question_body.filter(p => p.type === 'text')
+            .map(p => p.text).join(' ').toLowerCase();
+          const optionsText = q.options.join(' ').toLowerCase();
+          if (!bodyText.includes(searchText) && !optionsText.includes(searchText)) return false;
         }
         if (qNum && q.question_number !== Number(qNum)) return false;
         if (quiz !== 'All' && q.quiz_name !== quiz) return false;
@@ -221,6 +265,10 @@
     function renderQuestions(questions) {
       const container = document.getElementById('quiz-container');
       container.innerHTML = '';
+      if (questions.length === 0) {
+        container.textContent = 'No questions match the selected filters.';
+        return;
+      }
       questions.forEach(q => {
         const div = document.createElement('div');
         div.className = 'question';
@@ -237,8 +285,8 @@
         // Meta
         const meta = document.createElement('p');
         meta.innerHTML =
-          `<span class="status ${q.status}">${q.status.toUpperCase()}</span>` +
-          ` — ${q.points_awarded}/${q.points_possible} pts`;
+          `<span class="status ${q.status}">${q.status.toUpperCase()}</span>` +
+          ` — ${q.points_awarded}/${q.points_possible} pts`;
         div.appendChild(meta);
 
         // Body
@@ -264,19 +312,17 @@
           if (isSelected) {
             li.className =
               q.status === 'correct' ? 'correct' :
-              (q.status === 'incorrect' ? 'incorrect' : 'partial');
+                (q.status === 'incorrect' ? 'incorrect' : 'partial');
           }
-          li.textContent = opt + (isSelected ? ' ← your answer' : '');
+          li.textContent = opt + (isSelected ? ' ← your answer' : '');
           ul.appendChild(li);
         });
         div.appendChild(ul);
 
         container.appendChild(div);
       });
-      if (questions.length === 0) {
-        container.textContent = 'No questions match the selected filters.';
-      }
     }
   </script>
 </body>
+
 </html>
