@@ -1,5 +1,8 @@
 .venv/
-_OUTPUT/
-_INPUT/
+/_OUTPUT/*
+/_OUTPUT/_images/*
+/_OUTPUT/extracted_quizzes/*
+/BACKUP/*
+/_INPUT/*
 __pycache__/
 *.pyc
