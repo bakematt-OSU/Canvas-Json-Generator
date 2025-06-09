@@ -68,7 +68,6 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
                 first_name = parts[0]
                 last_name = parts[1] if len(parts) > 1 else None
             else:
-                # Fallback: strip trailing Results for ... if present
                 quiz_name = re.sub(r"\s*Results\s+for.*$", "", full_header).strip()
 
     # — slug for IDs
@@ -103,6 +102,17 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             m = re.search(r'([\d.]+)', pp_span.get_text())
             pp = float(m.group(1)) if m else None
 
+        # — determine status: correct, incorrect, partial
+        if pa is not None and pp is not None:
+            if pa == pp:
+                status = 'correct'
+            elif pa == 0:
+                status = 'incorrect'
+            else:
+                status = 'partial'
+        else:
+            status = None
+
         # — options and selected options
         opts, sel_opts = [], []
         for ans in q.find_all("div", class_="answer"):
@@ -124,7 +134,6 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
                 src = img.get('src') or img.get('data-src') or ''
                 if not src:
                     continue
-                # absolute URLs unchanged
                 if src.startswith('http://') or src.startswith('https://'):
                     pics.append(src)
                 else:
@@ -134,8 +143,8 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
                         pics.append(new_name)
 
         questions.append({
+            "status":            status,
             "question_id":       question_id,
-            "source_file":       os.path.basename(html_path),
             "first_name":        first_name,
             "last_name":         last_name,
             "quiz_name":         quiz_name,
@@ -145,7 +154,8 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             "selected_options":  sel_opts,
             "points_awarded":    pa,
             "points_possible":   pp,
-            "question_pictures": pics
+            "question_pictures": pics,
+            "source_file":       os.path.basename(html_path)
         })
 
     return questions
