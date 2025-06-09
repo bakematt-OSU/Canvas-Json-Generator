@@ -3,20 +3,20 @@ import zipfile
 import os
 import re
 import json
+import shutil
 from bs4 import BeautifulSoup, Tag
 
 # —— CONFIG —————————————————————————————————————————————————————————————
 ZIP_FILE        = '_INPUT/Quizes.zip'
 EXTRACT_FOLDER  = '_OUTPUT/extracted_quizzes'
 OUTPUT_JSON     = '_OUTPUT/extracted_questions_full.json'
-
+IMAGES_FOLDER   = '_OUTPUT/_images'
 
 # —— UNZIP UTILITY —————————————————————————————————————————————————————
 def extract_zip(zip_path: str, extract_to: str):
     os.makedirs(extract_to, exist_ok=True)
     with zipfile.ZipFile(zip_path, 'r') as zf:
         zf.extractall(extract_to)
-
 
 # —— SLUGIFY UTILITY ————————————————————————————————————————————————————
 def slugify(text: str) -> str:
@@ -31,6 +31,20 @@ def slugify(text: str) -> str:
     s = re.sub(r'-{2,}', '-', s).strip('-')
     return s
 
+# —— COPY & RENAME IMAGE UTILITY —————————————————————————————————————————
+def copy_and_rename_image(src_path: str, dest_folder: str, question_id: str, img_idx: int) -> str:
+    """
+    Copy the image at src_path into dest_folder with a new filename based on question_id and index.
+    Returns the new filename or None on failure.
+    """
+    ext = os.path.splitext(src_path)[1] or '.png'
+    new_filename = f"{question_id}_img{img_idx:02d}{ext}"
+    os.makedirs(dest_folder, exist_ok=True)
+    try:
+        shutil.copy(src_path, os.path.join(dest_folder, new_filename))
+        return new_filename
+    except Exception:
+        return None
 
 # —— CORE PARSER ————————————————————————————————————————————————————————
 def extract_questions_from_taken_quiz(html_path: str) -> list:
@@ -46,7 +60,7 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             txt = h2.get_text(" ", strip=True)
             quiz_name = re.sub(r'\s*Results\s+for.*$', '', txt)
 
-    # Precompute slug
+    # — slug for IDs
     quiz_slug = slugify(quiz_name) if quiz_name else None
 
     # — 2) CURRENT ATTEMPT
@@ -58,7 +72,7 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             attempt = int(m.group(1))
 
     questions = []
-    # Enumerate to know question index
+    # enumerate for question index
     for idx, q in enumerate(soup.find_all("div", class_="display_question"), start=1):
         # — question text
         qt_div = q.find("div", class_="question_text")
@@ -87,20 +101,28 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             if "selected_answer" in ans.get("class", []):
                 sel_opts.append(text)
 
-        # — question images (inside question_text)
-        pics = []
-        if qt_div:
-            for child in qt_div.descendants:
-                if isinstance(child, Tag) and child.name == "img":
-                    src = child.get("src") or child.get("data-src") or ""
-                    if src:
-                        pics.append(src)
-
         # — build unique question_id
         if quiz_slug and attempt is not None:
             question_id = f"{quiz_slug}_att{attempt}_q{idx:02d}"
         else:
             question_id = None
+
+        # — question images: rename and copy
+        pics = []
+        if qt_div:
+            for img_idx, img in enumerate(qt_div.find_all('img'), start=1):
+                src = img.get('src') or img.get('data-src') or ''
+                if not src:
+                    continue
+                # skip external URLs
+                if src.startswith('http://') or src.startswith('https://'):
+                    pics.append(src)
+                else:
+                    # determine original file path
+                    orig_path = os.path.normpath(os.path.join(os.path.dirname(html_path), src))
+                    new_name = copy_and_rename_image(orig_path, IMAGES_FOLDER, question_id or quiz_slug or 'img', img_idx)
+                    if new_name:
+                        pics.append(new_name)
 
         questions.append({
             "question_id":       question_id,
@@ -117,17 +139,18 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
 
     return questions
 
-
 # —— WRITE JSON ————————————————————————————————————————————————————————
 def write_json(data: list, out_path: str):
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-
 # —— MAIN WORKFLOW ——————————————————————————————————————————————————————
 def main():
     extract_zip(ZIP_FILE, EXTRACT_FOLDER)
+
+    # ensure images folder
+    os.makedirs(IMAGES_FOLDER, exist_ok=True)
 
     all_qs = []
     for fname in os.listdir(EXTRACT_FOLDER):
@@ -138,8 +161,7 @@ def main():
         all_qs.extend(extract_questions_from_taken_quiz(path))
 
     write_json(all_qs, OUTPUT_JSON)
-    print(f"✔ Extracted {len(all_qs)} questions into {OUTPUT_JSON}")
-
+    print(f"✔ Extracted {len(all_qs)} questions into {OUTPUT_JSON}\n✔ Images saved in {IMAGES_FOLDER}")
 
 if __name__ == "__main__":
     main()
