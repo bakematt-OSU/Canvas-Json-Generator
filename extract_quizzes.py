@@ -51,19 +51,30 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
     with open(html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f, 'html.parser')
 
-    # — 1) QUIZ NAME
+    # — HEADER: QUIZ NAME & STUDENT NAME
     quiz_name = ""
+    first_name = last_name = None
     hdr = soup.find('header', class_='quiz-header')
     if hdr:
         h2 = hdr.find('h2')
         if h2:
-            txt = h2.get_text(" ", strip=True)
-            quiz_name = re.sub(r'\s*Results\s+for.*$', '', txt)
+            full_header = h2.get_text(" ", strip=True)
+            # Expect "<Quiz Name> Results for <Student Name>"
+            m = re.match(r"(.+?)\s*Results\s+for\s+(.+)", full_header)
+            if m:
+                quiz_name = m.group(1).strip()
+                full_name = m.group(2).strip()
+                parts = full_name.split(None, 1)
+                first_name = parts[0]
+                last_name = parts[1] if len(parts) > 1 else None
+            else:
+                # Fallback: strip trailing Results for ... if present
+                quiz_name = re.sub(r"\s*Results\s+for.*$", "", full_header).strip()
 
     # — slug for IDs
     quiz_slug = slugify(quiz_name) if quiz_name else None
 
-    # — 2) CURRENT ATTEMPT
+    # — CURRENT ATTEMPT
     attempt = None
     sel = soup.select_one('li.quiz_version.selected a')
     if sel:
@@ -72,7 +83,7 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             attempt = int(m.group(1))
 
     questions = []
-    # enumerate for question index
+    # enumerate questions to index them
     for idx, q in enumerate(soup.find_all("div", class_="display_question"), start=1):
         # — question text
         qt_div = q.find("div", class_="question_text")
@@ -92,7 +103,7 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             m = re.search(r'([\d.]+)', pp_span.get_text())
             pp = float(m.group(1)) if m else None
 
-        # — options + which selected
+        # — options and selected options
         opts, sel_opts = [], []
         for ans in q.find_all("div", class_="answer"):
             at = ans.find("div", class_="answer_text") or ans.find("div", class_="answer_label")
@@ -101,11 +112,10 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             if "selected_answer" in ans.get("class", []):
                 sel_opts.append(text)
 
-        # — build unique question_id
+        # — build question_id
+        question_id = None
         if quiz_slug and attempt is not None:
             question_id = f"{quiz_slug}_att{attempt}_q{idx:02d}"
-        else:
-            question_id = None
 
         # — question images: rename and copy
         pics = []
@@ -114,11 +124,10 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
                 src = img.get('src') or img.get('data-src') or ''
                 if not src:
                     continue
-                # skip external URLs
+                # absolute URLs unchanged
                 if src.startswith('http://') or src.startswith('https://'):
                     pics.append(src)
                 else:
-                    # determine original file path
                     orig_path = os.path.normpath(os.path.join(os.path.dirname(html_path), src))
                     new_name = copy_and_rename_image(orig_path, IMAGES_FOLDER, question_id or quiz_slug or 'img', img_idx)
                     if new_name:
@@ -127,6 +136,8 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
         questions.append({
             "question_id":       question_id,
             "source_file":       os.path.basename(html_path),
+            "first_name":        first_name,
+            "last_name":         last_name,
             "quiz_name":         quiz_name,
             "attempt":           attempt,
             "question":          question_text,
@@ -148,8 +159,6 @@ def write_json(data: list, out_path: str):
 # —— MAIN WORKFLOW ——————————————————————————————————————————————————————
 def main():
     extract_zip(ZIP_FILE, EXTRACT_FOLDER)
-
-    # ensure images folder
     os.makedirs(IMAGES_FOLDER, exist_ok=True)
 
     all_qs = []
