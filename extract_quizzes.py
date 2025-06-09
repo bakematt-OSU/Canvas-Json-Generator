@@ -18,22 +18,38 @@ def extract_zip(zip_path: str, extract_to: str):
         zf.extractall(extract_to)
 
 
+# —— SLUGIFY UTILITY ————————————————————————————————————————————————————
+def slugify(text: str) -> str:
+    """
+    Convert text into a URL-friendly slug:
+      - lowercase, non-alphanumerics → hyphens,
+      - collapse multiple hyphens,
+      - strip leading/trailing hyphens
+    """
+    s = text.lower()
+    s = re.sub(r'[^a-z0-9]+', '-', s)
+    s = re.sub(r'-{2,}', '-', s).strip('-')
+    return s
+
+
 # —— CORE PARSER ————————————————————————————————————————————————————————
 def extract_questions_from_taken_quiz(html_path: str) -> list:
     with open(html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f, 'html.parser')
 
-    # — 1) QUIZ NAME from <header class="quiz-header"><h2>…</h2></header>
+    # — 1) QUIZ NAME
     quiz_name = ""
     hdr = soup.find('header', class_='quiz-header')
     if hdr:
         h2 = hdr.find('h2')
         if h2:
             txt = h2.get_text(" ", strip=True)
-            # drop trailing "Results for …"
             quiz_name = re.sub(r'\s*Results\s+for.*$', '', txt)
 
-    # — 2) ATTEMPT from the selected <li class="quiz_version selected">
+    # Precompute slug
+    quiz_slug = slugify(quiz_name) if quiz_name else None
+
+    # — 2) CURRENT ATTEMPT
     attempt = None
     sel = soup.select_one('li.quiz_version.selected a')
     if sel:
@@ -42,7 +58,8 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             attempt = int(m.group(1))
 
     questions = []
-    for q in soup.find_all("div", class_="display_question"):
+    # Enumerate to know question index
+    for idx, q in enumerate(soup.find_all("div", class_="display_question"), start=1):
         # — question text
         qt_div = q.find("div", class_="question_text")
         question_text = (
@@ -79,16 +96,23 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
                     if src:
                         pics.append(src)
 
+        # — build unique question_id
+        if quiz_slug and attempt is not None:
+            question_id = f"{quiz_slug}_att{attempt}_q{idx:02d}"
+        else:
+            question_id = None
+
         questions.append({
-            "source_file":      os.path.basename(html_path),
-            "quiz_name":        quiz_name,
-            "attempt":          attempt,
-            "question":         question_text,
-            "options":          opts,
-            "selected_options": sel_opts,
-            "points_awarded":   pa,
-            "points_possible":  pp,
-            "question_pictures":pics
+            "question_id":       question_id,
+            "source_file":       os.path.basename(html_path),
+            "quiz_name":         quiz_name,
+            "attempt":           attempt,
+            "question":          question_text,
+            "options":           opts,
+            "selected_options":  sel_opts,
+            "points_awarded":    pa,
+            "points_possible":   pp,
+            "question_pictures": pics
         })
 
     return questions
