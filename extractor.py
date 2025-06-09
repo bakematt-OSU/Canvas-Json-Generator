@@ -206,6 +206,7 @@ def extract_questions_from_taken_quiz(
         # — QUESTION ID
         question_id = f"{quiz_slug}_att{attempt}_q{idx:02d}" if quiz_slug and attempt is not None else None
 
+
         # — QUESTION BODY & IMAGES
         qt_div = q.find('div', class_='question_text')
         question_body = []
