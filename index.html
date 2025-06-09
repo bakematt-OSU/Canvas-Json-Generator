@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +17,7 @@
       --filter-bg: #f9f9f9;
       --filter-border: #ddd;
     }
+
     body.dark {
       --bg: #121212;
       --fg: #e0e0e0;
@@ -27,6 +29,7 @@
       --filter-bg: #1a1a1a;
       --filter-border: #333;
     }
+
     body {
       background-color: var(--bg);
       color: var(--fg);
@@ -35,7 +38,13 @@
       padding: 0;
       transition: background-color 0.3s, color 0.3s;
     }
-    h1 { text-align: center; margin: 1rem 0; }
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
     .btn {
       background-color: var(--btn-bg);
       color: var(--btn-fg);
@@ -45,15 +54,19 @@
       border-radius: 4px;
       transition: background-color 0.2s;
     }
-    .btn:hover { background-color: var(--fg); color: var(--bg); }
-    /* Filter panel */
+
+    .btn:hover {
+      background-color: var(--fg);
+      color: var(--bg);
+    }
+
     #filter-panel {
       position: sticky;
       top: 0;
       background-color: var(--filter-bg);
       border: 1px solid var(--filter-border);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       padding: 1rem;
       z-index: 10;
       width: 75%;
@@ -62,16 +75,18 @@
       box-sizing: border-box;
       transition: background-color 0.3s, border-color 0.3s;
     }
+
     #filter-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.5rem;
     }
-    #filter-header span {
-      font-size: 1.25rem;
-      font-weight: bold;
+
+    #filter-header h1 {
+      flex: 1;
+      text-align: center;
     }
+
     #filter-toggle {
       background: none;
       border: none;
@@ -80,8 +95,11 @@
       line-height: 1;
       cursor: pointer;
     }
-    #filter-content.collapsed { display: none; }
-    /* Search full-width */
+
+    #filter-content.collapsed {
+      display: none;
+    }
+
     #filter-search {
       width: 100%;
       padding: 0.5rem;
@@ -92,6 +110,7 @@
       border-radius: 4px;
       transition: border-color 0.3s;
     }
+
     #filters {
       display: flex;
       flex-wrap: wrap;
@@ -100,32 +119,56 @@
       justify-content: center;
       margin: 0.5rem 0;
     }
+
     #filters label {
       display: flex;
       flex-direction: column;
       font-size: 0.9rem;
       min-width: 120px;
+      position: relative;
     }
-    #filters select, #filters input[type="checkbox"] {
+
+    #filters select,
+    #filters input[type="checkbox"] {
       margin-top: 0.25rem;
     }
-    #result-count, #buttons {
+
+    .clear-btn {
+      position: absolute;
+      top: 0;
+      right: -0.5rem;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: var(--btn-fg);
+      cursor: pointer;
+      padding: 0.2rem;
+    }
+
+    .clear-btn:hover {
+      color: var(--filter-border);
+    }
+
+    #result-count,
+    #buttons {
       text-align: center;
       margin-top: 0.75rem;
     }
+
     #buttons {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
     }
-    /* Quiz container */
+
     #quiz-container {
       padding: 1rem 0;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+
     .question {
       width: 75%;
       max-width: 800px;
@@ -136,13 +179,38 @@
       background-color: var(--card-bg);
       transition: background-color 0.3s, border-color 0.3s;
     }
-    .question h2 { font-size: 1.2rem; text-align: center; margin: 0 0 0.5rem; }
-    .status { font-weight: bold; }
-    .options { list-style: disc; padding-left: 1.5rem; }
-    .options li { margin: 0.25rem 0; }
-    .correct { color: #4caf50; }
-    .incorrect { color: #f44336; }
-    .partial { color: #ff9800; }
+
+    .question h2 {
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 0 0 0.5rem;
+    }
+
+    .status {
+      font-weight: bold;
+    }
+
+    .options {
+      list-style: disc;
+      padding-left: 1.5rem;
+    }
+
+    .options li {
+      margin: 0.25rem 0;
+    }
+
+    .correct {
+      color: #4caf50;
+    }
+
+    .incorrect {
+      color: #f44336;
+    }
+
+    .partial {
+      color: #ff9800;
+    }
+
     .question img {
       max-width: 600px;
       margin: 1rem auto;
@@ -153,22 +221,44 @@
     }
   </style>
 </head>
-<body class="dark">
-  <h1>Review: Module 10 Summary Exercises</h1>
 
+<body class="dark">
   <div id="filter-panel">
     <div id="filter-header">
-      <span>Filters</span>
+      <h1>Review: Module 10 Summary Exercises</h1>
       <button id="filter-toggle">−</button>
     </div>
     <div id="filter-content">
       <input type="search" id="filter-search" placeholder="Search question text...">
       <div id="filters">
-        <label>Question #:<select id="filter-question" multiple size="4"></select></label>
-        <label>Quiz:<select id="filter-quiz" multiple size="4"></select></label>
-        <label>User:<select id="filter-user" multiple size="4"></select></label>
-        <label>Status:<select id="filter-status" multiple size="4"><option>Correct</option><option>Incorrect</option><option>Partial</option></select></label>
-        <label><input type="checkbox" id="filter-selected-only">Show Selected Only</label>
+        <label>Question #:
+          <select id="filter-question" multiple size="4"></select>
+          <button class="clear-btn" data-filter="filter-question">×</button>
+        </label>
+        <label>Quiz:
+          <select id="filter-quiz" multiple size="4"></select>
+          <button class="clear-btn" data-filter="filter-quiz">×</button>
+        </label>
+        <label>Class:
+          <select id="filter-class" multiple size="4"></select>
+          <button class="clear-btn" data-filter="filter-class">×</button>
+        </label>
+        <label>User:
+          <select id="filter-user" multiple size="4"></select>
+          <button class="clear-btn" data-filter="filter-user">×</button>
+        </label>
+        <label>Status:
+          <select id="filter-status" multiple size="4">
+            <option>Correct</option>
+            <option>Incorrect</option>
+            <option>Partial</option>
+          </select>
+          <button class="clear-btn" data-filter="filter-status">×</button>
+        </label>
+        <label>Show Selected Only:
+          <input type="checkbox" id="filter-selected-only">
+          <button class="clear-btn" data-filter="filter-selected-only">×</button>
+        </label>
       </div>
       <div id="result-count">Loading... </div>
       <div id="buttons">
@@ -179,78 +269,117 @@
   </div>
 
   <div id="quiz-container"></div>
-
   <script>
     let allQuestions = [];
     const totalCount = () => allQuestions.length;
-    const panel = document.getElementById('filter-panel');
-    const content = document.getElementById('filter-content');
-    const toggleBtn = document.getElementById('filter-toggle');
-    toggleBtn.addEventListener('click', () => {
+    document.getElementById('filter-toggle').addEventListener('click', () => {
+      const content = document.getElementById('filter-content');
       content.classList.toggle('collapsed');
-      toggleBtn.textContent = content.classList.contains('collapsed') ? '+' : '−';
+      document.getElementById('filter-toggle').textContent = content.classList.contains('collapsed') ? '+' : '−';
     });
     document.getElementById('toggle-theme').addEventListener('click', () => document.body.classList.toggle('dark'));
     document.getElementById('clear-filters').addEventListener('click', () => {
       document.getElementById('filter-search').value = '';
-      const resets = ['filter-question','filter-quiz','filter-user','filter-status'];
-      resets.forEach(id => Array.from(document.getElementById(id).options).forEach(opt => opt.selected = true));
+      [
+        'filter-question', 'filter-quiz', 'filter-class', 'filter-user', 'filter-status'
+      ].forEach(id =>
+        Array.from(document.getElementById(id).options).forEach(opt => opt.selected = true)
+      );
       document.getElementById('filter-selected-only').checked = false;
       applyFilters();
     });
-    ['filter-search','filter-question','filter-quiz','filter-user','filter-status','filter-selected-only']
-      .forEach(id => document.getElementById(id).addEventListener('change', applyFilters));
+    document.querySelectorAll('.clear-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.filter;
+        if (id === 'filter-selected-only') {
+          document.getElementById(id).checked = false;
+        } else {
+          Array.from(document.getElementById(id).options).forEach(opt => opt.selected = true);
+        }
+        applyFilters();
+      });
+    });
+    [
+      'filter-search', 'filter-question', 'filter-quiz', 'filter-class',
+      'filter-user', 'filter-status', 'filter-selected-only'
+    ].forEach(id => document.getElementById(id).addEventListener('change', applyFilters));
     fetch('/_OUTPUT/extracted_questions_full.json')
       .then(r => r.json())
       .then(data => { allQuestions = data; initFilters(data); applyFilters(); })
       .catch(e => document.getElementById('quiz-container').textContent = '❌ Failed to load JSON: ' + e);
     function initFilters(data) {
-      const qNums = [...new Set(data.map(q=>q.question_number))].sort((a,b)=>a-b);
+      const qNums = [...new Set(data.map(q => q.question_number))].sort((a, b) => a - b);
       const qs = document.getElementById('filter-question');
-      qNums.forEach(n=> qs.append(new Option(n,n)));
-      Array.from(qs.options).forEach(opt=> opt.selected=true);
-      const quizSet = [...new Set(data.map(q=>q.quiz_name))];
+      qNums.forEach(n => qs.append(new Option(n, n)));
+      Array.from(qs.options).forEach(opt => opt.selected = true);
+      const quizSet = [...new Set(data.map(q => q.quiz_name))];
       const quizSel = document.getElementById('filter-quiz');
-      quizSet.forEach(n=> quizSel.append(new Option(n,n)));
-      Array.from(quizSel.options).forEach(opt=> opt.selected=true);
-      const userSet = [...new Set(data.map(q=>`${q.first_name} ${q.last_name}`))];
+      quizSet.forEach(n => quizSel.append(new Option(n, n)));
+      Array.from(quizSel.options).forEach(opt => opt.selected = true);
+      const classSet = [...new Set(data.map(q => q.class))];
+      const classSel = document.getElementById('filter-class');
+      classSet.forEach(c => classSel.append(new Option(c, c)));
+      Array.from(classSel.options).forEach(opt => opt.selected = true);
+      const userSet = [...new Set(data.map(q => `${q.first_name} ${q.last_name}`))];
       const userSel = document.getElementById('filter-user');
-      userSet.forEach(u=> userSel.append(new Option(u,u)));
-      Array.from(userSel.options).forEach(opt=> opt.selected=true);
+      userSet.forEach(u => userSel.append(new Option(u, u)));
+      Array.from(userSel.options).forEach(opt => opt.selected = true);
       const statusSel = document.getElementById('filter-status');
-      Array.from(statusSel.options).forEach(opt=> opt.selected=true);
+      Array.from(statusSel.options).forEach(opt => opt.selected = true);
     }
     function applyFilters() {
       const st = document.getElementById('filter-search').value.trim().toLowerCase();
-      const qsel = Array.from(document.getElementById('filter-question').selectedOptions).map(o=>Number(o.value));
-      const quizsel = Array.from(document.getElementById('filter-quiz').selectedOptions).map(o=>o.value);
-      const usersel = Array.from(document.getElementById('filter-user').selectedOptions).map(o=>o.value);
-      const statussel = Array.from(document.getElementById('filter-status').selectedOptions).map(o=>o.value.toLowerCase());
+      const qsel = Array.from(document.getElementById('filter-question').selectedOptions).map(o => Number(o.value));
+      const quizsel = Array.from(document.getElementById('filter-quiz').selectedOptions).map(o => o.value);
+      const classsel = Array.from(document.getElementById('filter-class').selectedOptions).map(o => o.value);
+      const usersel = Array.from(document.getElementById('filter-user').selectedOptions).map(o => o.value);
+      const statussel = Array.from(document.getElementById('filter-status').selectedOptions).map(o => o.value.toLowerCase());
       const selOnly = document.getElementById('filter-selected-only').checked;
-      const filtered = allQuestions.filter(q=>{
-        if(st){ const bt=q.question_body.filter(p=>p.type==='text').map(p=>p.text).join(' ').toLowerCase(); if(!bt.includes(st)) return false; }
-        if(!qsel.includes(q.question_number)) return false;
-        if(!quizsel.includes(q.quiz_name)) return false;
-        const fullname=`${q.first_name} ${q.last_name}`;
-        if(!usersel.includes(fullname)) return false;
-        if(!statussel.includes(q.status)) return false;
+      const filtered = allQuestions.filter(q => {
+        if (st) {
+          const bt = q.question_body.filter(p => p.type === 'text').map(p => p.text).join(' ').toLowerCase();
+          if (!bt.includes(st)) return false;
+        }
+        if (!qsel.includes(q.question_number)) return false;
+        if (!quizsel.includes(q.quiz_name)) return false;
+        if (!classsel.includes(q.class)) return false;
+        const fullname = `${q.first_name} ${q.last_name}`;
+        if (!usersel.includes(fullname)) return false;
+        if (!statussel.includes(q.status)) return false;
         return true;
       });
       renderQuestions(filtered, selOnly);
     }
     function renderQuestions(questions, selOnly) {
-      const c=document.getElementById('quiz-container'); c.innerHTML='';
-      document.getElementById('result-count').textContent=`Showing ${questions.length} of ${totalCount()} questions`;
-      if(!questions.length){c.textContent='No questions match the selected filters.'; return;}
-      questions.forEach(q=>{
-        const d=document.createElement('div'); d.className='question';
-        const h=document.createElement('h2'); h.textContent=`Question ${q.question_number} – Quiz: "${q.quiz_name}" – Attempt: "${q.attempt}" – ${q.first_name}, ${q.last_name}`; d.appendChild(h);
-        const m=document.createElement('p'); m.innerHTML=`<span class="status ${q.status}">${q.status.toUpperCase()}</span> — ${q.points_awarded}/${q.points_possible} pts`; d.appendChild(m);
-        q.question_body.forEach(p=>{if(p.type==='text'){const t=document.createElement('p');t.textContent=p.text;d.appendChild(t);}else if(p.type==='image'){const i=document.createElement('img');i.src='/_OUTPUT/_images/'+p.src;i.alt=p.alt||'';d.appendChild(i);}});
-        const ul=document.createElement('ul'); ul.className='options';
-        q.options.forEach(optv=>{const isSel=q.selected_options.includes(optv);if(selOnly&&!isSel)return;const li=document.createElement('li');if(isSel)li.className=q.status==='correct'?'correct':(q.status==='incorrect'?'incorrect':'partial');li.textContent=optv+(isSel?' ← your answer':'');ul.appendChild(li);});d.appendChild(ul);c.appendChild(d);
+      const c = document.getElementById('quiz-container'); c.innerHTML = '';
+      document.getElementById('result-count').textContent = `Showing ${questions.length} of ${totalCount()} questions`;
+      if (!questions.length) { c.textContent = 'No questions match the selected filters.'; return; }
+      questions.forEach(q => {
+        const d = document.createElement('div'); d.className = 'question';
+        const h = document.createElement('h2');
+        h.textContent = `Question ${q.question_number} – Quiz: "${q.quiz_name}" – Class: "${q.class}" – Attempt: "${q.attempt}" – ${q.first_name}, ${q.last_name}`;
+        d.appendChild(h);
+        const m = document.createElement('p');
+        m.innerHTML = `<span class="status ${q.status}">${q.status.toUpperCase()}</span> — ${q.points_awarded}/${q.points_possible} pts`;
+        d.appendChild(m);
+        q.question_body.forEach(p => {
+          if (p.type === 'text') { const t = document.createElement('p'); t.textContent = p.text; d.appendChild(t); }
+          else if (p.type === 'image') { const i = document.createElement('img'); i.src = '/_OUTPUT/_images/' + p.src; i.alt = p.alt || ''; d.appendChild(i); }
+        });
+        const ul = document.createElement('ul'); ul.className = 'options';
+        q.options.forEach(optv => {
+          const isSel = q.selected_options.includes(optv);
+          if (selOnly && !isSel) return;
+          const li = document.createElement('li');
+          if (isSel) li.className = q.status === 'correct' ? 'correct' : (q.status === 'incorrect' ? 'incorrect' : 'partial');
+          li.textContent = optv + (isSel ? ' ← your answer' : '');
+          ul.appendChild(li);
+        });
+        d.appendChild(ul);
+        c.appendChild(d);
       });
     }
   </script>
 </body>
+
 </html>
