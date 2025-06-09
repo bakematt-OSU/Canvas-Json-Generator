@@ -1,0 +1,975 @@
+[
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 1,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "13688 Exponential back-off/retry for collision resolution Exponential back-off/retry for collision resolution Your Answer: (You left this blank) exact_answer none 57528792 13688 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "30488 Collision Avoidance Collision Avoidance exact_answer none 57528792 30488 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "23235 Reservation system with Request to Send (RTS) and Clear to Send (CTS) Reservation system with Request to Send (RTS) and Clear to Send (CTS) exact_answer none 57528792 23235 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "31991 Collision Detection Collision Detection exact_answer none 57528792 31991 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "76814 Carrier Sense Multiple Access Carrier Sense Multiple Access exact_answer none 57528792 76814 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 2,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "83024 The care-of address The care-of address exact_answer none 57528789 83024 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "68142 The home agent The home agent exact_answer none 57528789 68142 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "68025 The permanent address The permanent address exact_answer none 57528789 68025 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 3,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "60414 True True exact_answer none 57528795 60414 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "5507 False False exact_answer none 57528795 5507 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 4,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "10961 Wireless Wireless exact_answer a 57528793 10961 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "74234 Mobile Mobile exact_answer a 57528793 74234 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 5,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "58149 infrastructure network infrastructure network exact_answer none 57528788 58149 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "36790 none of these none of these exact_answer none 57528788 36790 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "56817 basic service set network basic service set network exact_answer none 57528788 56817 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "64696 ad-hoc network ad-hoc network exact_answer none 57528788 64696 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "55295 access point network access point network exact_answer none 57528788 55295 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 6,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "35517 Wireless Wireless exact_answer a 57528794 35517 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "67402 Mobile Mobile exact_answer a 57528794 67402 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 7,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "10834 none of these none of these exact_answer none 57528796 10834 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "78218 basic service set network basic service set network exact_answer none 57528796 78218 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "73081 infrastructure network infrastructure network exact_answer none 57528796 73081 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "93022 access point network access point network exact_answer none 57528796 93022 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "6119 ad-hoc network ad-hoc network exact_answer none 57528796 6119 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 8,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "31975 a new “care-of” address to the mobile unit a new “care-of” address to the mobile unit Your Answer: (You left this blank) exact_answer none 57528797 31975 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "97794 a new home address to the correspondent a new home address to the correspondent exact_answer none 57528797 97794 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "81517 a new name (alias) to the mobile unit’s home network a new name (alias) to the mobile unit’s home network exact_answer none 57528797 81517 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 9,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "24888 Radio waves are more susceptible to interference than signals carried on cable Radio waves are more susceptible to interference than signals carried on cable Your Answer: (You left this blank) exact_answer none 57528791 24888 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "73417 The \"hidden node\" problem The \"hidden node\" problem The \"hidden node\" problem The \"hidden node\" problem Your Answer: (You left this blank) exact_answer none 57528791 73417 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "62814 Hosts may frequently move from one network to another Hosts may frequently move from one network to another Your Answer: (You left this blank) exact_answer none 57528791 62814 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "2516 Multi-path propagation when radio signals bounce off obstacles Multi-path propagation when radio signals bounce off obstacles Your Answer: (You left this blank) exact_answer none 57528791 2516 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "21575 Obstacles that block radio signals Obstacles that block radio signals Your Answer: (You left this blank) exact_answer none 57528791 21575 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 10,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "84481 The care-of address The care-of address exact_answer none 57528790 84481 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "38286 The foreign agent The foreign agent exact_answer none 57528790 38286 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "52628 The permanent address The permanent address exact_answer none 57528790 52628 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 11,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "58149 infrastructure network infrastructure network exact_answer none 57528798 58149 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "36790 none of these none of these exact_answer none 57528798 36790 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "55295 access point network access point network exact_answer none 57528798 55295 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "56817 basic service set network basic service set network exact_answer none 57528798 56817 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "64696 ad-hoc network ad-hoc network exact_answer none 57528798 64696 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 12,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "13688 Exponential back-off/retry for collision resolution Exponential back-off/retry for collision resolution Your Answer: (You left this blank) exact_answer none 57528816 13688 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "76814 Carrier Sense Multiple Access Carrier Sense Multiple Access Your Answer: (You left this blank) exact_answer none 57528816 76814 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "31991 Collision Detection Collision Detection exact_answer none 57528816 31991 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "23235 Reservation system with Request to Send (RTS) and Clear to Send (CTS) Reservation system with Request to Send (RTS) and Clear to Send (CTS) Your Answer: (You left this blank) exact_answer none 57528816 23235 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "30488 Collision Avoidance Collision Avoidance Your Answer: (You left this blank) exact_answer none 57528816 30488 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 13,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "14971 S encrypts a signature using D's private key, and D decrypts the signature using D's public key. S encrypts a signature using D 's private key, and D decrypts the signature using D 's public key. S encrypts a signature using D's private key, and D decrypts the signature using D's public key. S encrypts a signature using D 's private key, and D decrypts the signature using D 's public key. exact_answer none 57528801 14971 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "45422 Sencrypts a signature using S's public key, and D decrypts the signature using S's private key. S encrypts a signature using S 's public key, and D decrypts the signature using S 's private key. Sencrypts a signature using S's public key, and D decrypts the signature using S's private key. S encrypts a signature using S 's public key, and D decrypts the signature using S 's private key. exact_answer none 57528801 45422 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "62878 S encrypts a signature using D's public key, and D decrypts the signature using D's private key. S encrypts a signature using D's public key, and D decrypts the signature using D 's private key. S encrypts a signature using D's public key, and D decrypts the signature using D's private key. S encrypts a signature using D's public key, and D decrypts the signature using D 's private key. exact_answer none 57528801 62878 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "93051 S encrypts a signature using S's private key, and D decrypts the signature using S's public key. S encrypts a signature using S 's private key, and D decrypts the signature using S 's public key. S encrypts a signature using S's private key, and D decrypts the signature using S's public key. S encrypts a signature using S 's private key, and D decrypts the signature using S 's public key. exact_answer none 57528801 93051 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 14,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "90206 encrypt(m) = decrypt(c) encrypt(m) = decrypt(c) encrypt(m) = decrypt(c) encrypt(m) = decrypt(c) exact_answer none 57528802 90206 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "22988 encrypt(decrypt(c)) = m encrypt(decrypt(c)) = m encrypt(decrypt(c)) = m encrypt(decrypt(c)) = m exact_answer none 57528802 22988 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "72542 decrypt(m) = encrypt(c) decrypt(m) = encrypt(c) decrypt(m) = encrypt(c) decrypt(m) = encrypt(c) exact_answer none 57528802 72542 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "11342 none of these none of these exact_answer none 57528802 11342 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "59337 decrypt(encrypt(m)) = m decrypt(encrypt(m)) = m decrypt(encrypt(m)) = m decrypt(encrypt(m)) = m exact_answer none 57528802 59337 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 15,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "26154 e = 5, d = 29 e = 5, d = 29 exact_answer none 57528800 26154 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "88269 e = 29, d = 63 e = 29, d = 63 exact_answer none 57528800 88269 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "32941 e = 7, d = 63 e = 7, d = 63 Your Answer: (You left this blank) exact_answer none 57528800 32941 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 16,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "73715 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). exact_answer none 57528803 73715 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "9786 2 messages/slot. 2 messages/slot. exact_answer none 57528803 9786 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "91101 1 message/slot. 1 message/slot. exact_answer none 57528803 91101 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "79808 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). exact_answer none 57528803 79808 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 17,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "43019 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). exact_answer none 57528804 43019 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "4154 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). exact_answer none 57528804 4154 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "87545 1 message/slot. 1 message/slot. exact_answer none 57528804 87545 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "86462 2 messages/slot. 2 messages/slot. exact_answer none 57528804 86462 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 1 - Module 10 Summary Exercises.html",
+    "question_number": 18,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "42242 1 message/slot. 1 message/slot. exact_answer none 57528815 42242 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "92263 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). exact_answer none 57528815 92263 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "11111 2 messages/slot. 2 messages/slot. exact_answer none 57528815 11111 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "36760 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). exact_answer none 57528815 36760 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 1,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "52628 The permanent address The permanent address exact_answer none 57528790 52628 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "38286 The foreign agent The foreign agent exact_answer none 57528790 38286 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "84481 The care-of address The care-of address exact_answer none 57528790 84481 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 2,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "83024 The care-of address The care-of address exact_answer none 57528789 83024 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "68142 The home agent The home agent exact_answer none 57528789 68142 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "68025 The permanent address The permanent address exact_answer none 57528789 68025 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 3,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "35517 Wireless Wireless exact_answer a 57528794 35517 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "67402 Mobile Mobile exact_answer a 57528794 67402 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 4,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "30488 Collision Avoidance Collision Avoidance Your Answer: (You left this blank) exact_answer none 57528792 30488 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "31991 Collision Detection Collision Detection exact_answer none 57528792 31991 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "76814 Carrier Sense Multiple Access Carrier Sense Multiple Access Your Answer: (You left this blank) exact_answer none 57528792 76814 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "13688 Exponential back-off/retry for collision resolution Exponential back-off/retry for collision resolution Your Answer: (You left this blank) exact_answer none 57528792 13688 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "23235 Reservation system with Request to Send (RTS) and Clear to Send (CTS) Reservation system with Request to Send (RTS) and Clear to Send (CTS) Your Answer: (You left this blank) exact_answer none 57528792 23235 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 5,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "10834 none of these none of these exact_answer none 57528796 10834 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "78218 basic service set network basic service set network exact_answer none 57528796 78218 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "6119 ad-hoc network ad-hoc network exact_answer none 57528796 6119 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "73081 infrastructure network infrastructure network exact_answer none 57528796 73081 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "93022 access point network access point network exact_answer none 57528796 93022 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 6,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "60414 True True exact_answer none 57528795 60414 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "5507 False False exact_answer none 57528795 5507 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 7,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "10961 Wireless Wireless exact_answer a 57528793 10961 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "74234 Mobile Mobile exact_answer a 57528793 74234 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 8,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "36790 none of these none of these exact_answer none 57528788 36790 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "55295 access point network access point network exact_answer none 57528788 55295 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "56817 basic service set network basic service set network exact_answer none 57528788 56817 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "64696 ad-hoc network ad-hoc network exact_answer none 57528788 64696 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "58149 infrastructure network infrastructure network exact_answer none 57528788 58149 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 9,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "97794 a new home address to the correspondent a new home address to the correspondent exact_answer none 57528797 97794 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "81517 a new name (alias) to the mobile unit’s home network a new name (alias) to the mobile unit’s home network exact_answer none 57528797 81517 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "31975 a new “care-of” address to the mobile unit a new “care-of” address to the mobile unit Your Answer: (You left this blank) exact_answer none 57528797 31975 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 10,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "21575 Obstacles that block radio signals Obstacles that block radio signals Your Answer: (You left this blank) exact_answer none 57528791 21575 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "24888 Radio waves are more susceptible to interference than signals carried on cable Radio waves are more susceptible to interference than signals carried on cable Your Answer: (You left this blank) exact_answer none 57528791 24888 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "73417 The \"hidden node\" problem The \"hidden node\" problem The \"hidden node\" problem The \"hidden node\" problem Your Answer: (You left this blank) exact_answer none 57528791 73417 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "2516 Multi-path propagation when radio signals bounce off obstacles Multi-path propagation when radio signals bounce off obstacles Your Answer: (You left this blank) exact_answer none 57528791 2516 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "62814 Hosts may frequently move from one network to another Hosts may frequently move from one network to another Your Answer: (You left this blank) exact_answer none 57528791 62814 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 11,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "31991 Collision Detection Collision Detection exact_answer none 57528816 31991 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "23235 Reservation system with Request to Send (RTS) and Clear to Send (CTS) Reservation system with Request to Send (RTS) and Clear to Send (CTS) Your Answer: (You left this blank) exact_answer none 57528816 23235 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "30488 Collision Avoidance Collision Avoidance Your Answer: (You left this blank) exact_answer none 57528816 30488 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "13688 Exponential back-off/retry for collision resolution Exponential back-off/retry for collision resolution Your Answer: (You left this blank) exact_answer none 57528816 13688 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "76814 Carrier Sense Multiple Access Carrier Sense Multiple Access Your Answer: (You left this blank) exact_answer none 57528816 76814 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 12,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "38286 The foreign agent The foreign agent exact_answer none 57528807 38286 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "84481 The care-of address The care-of address exact_answer none 57528807 84481 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "52628 The permanent address The permanent address exact_answer none 57528807 52628 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 13,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "59337 decrypt(encrypt(m)) = m decrypt(encrypt(m)) = m decrypt(encrypt(m)) = m decrypt(encrypt(m)) = m exact_answer none 57528802 59337 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "22988 encrypt(decrypt(c)) = m encrypt(decrypt(c)) = m encrypt(decrypt(c)) = m encrypt(decrypt(c)) = m exact_answer none 57528802 22988 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "11342 none of these none of these exact_answer none 57528802 11342 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "72542 decrypt(m) = encrypt(c) decrypt(m) = encrypt(c) decrypt(m) = encrypt(c) decrypt(m) = encrypt(c) exact_answer none 57528802 72542 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "90206 encrypt(m) = decrypt(c) encrypt(m) = decrypt(c) encrypt(m) = decrypt(c) encrypt(m) = decrypt(c) exact_answer none 57528802 90206 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 14,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "93051 S encrypts a signature using S's private key, and D decrypts the signature using S's public key. S encrypts a signature using S 's private key, and D decrypts the signature using S 's public key. S encrypts a signature using S's private key, and D decrypts the signature using S's public key. S encrypts a signature using S 's private key, and D decrypts the signature using S 's public key. exact_answer none 57528801 93051 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "62878 S encrypts a signature using D's public key, and D decrypts the signature using D's private key. S encrypts a signature using D's public key, and D decrypts the signature using D 's private key. S encrypts a signature using D's public key, and D decrypts the signature using D's private key. S encrypts a signature using D's public key, and D decrypts the signature using D 's private key. exact_answer none 57528801 62878 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "14971 S encrypts a signature using D's private key, and D decrypts the signature using D's public key. S encrypts a signature using D 's private key, and D decrypts the signature using D 's public key. S encrypts a signature using D's private key, and D decrypts the signature using D's public key. S encrypts a signature using D 's private key, and D decrypts the signature using D 's public key. exact_answer none 57528801 14971 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "45422 Sencrypts a signature using S's public key, and D decrypts the signature using S's private key. S encrypts a signature using S 's public key, and D decrypts the signature using S 's private key. Sencrypts a signature using S's public key, and D decrypts the signature using S's private key. S encrypts a signature using S 's public key, and D decrypts the signature using S 's private key. exact_answer none 57528801 45422 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 15,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "41142 S encrypts a message using D's public key, and D decrypts the message using D's private key. S encrypts a message using D 's public key, and D decrypts the message using D 's private key. S encrypts a message using D's public key, and D decrypts the message using D's private key. S encrypts a message using D 's public key, and D decrypts the message using D 's private key. exact_answer none 57528820 41142 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "46969 S encrypts a message using D's public key, and D decrypts the message using S's public key. S encrypts a message using D's public key, and D decrypts the message using S 's public key. S encrypts a message using D's public key, and D decrypts the message using S's public key. S encrypts a message using D's public key, and D decrypts the message using S 's public key. exact_answer none 57528820 46969 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "90803 Sencrypts a message using S's public key, and D decrypts the message using D's private key. S encrypts a message using S 's public key, and D decrypts the message using D 's private key. Sencrypts a message using S's public key, and D decrypts the message using D's private key. S encrypts a message using S 's public key, and D decrypts the message using D 's private key. exact_answer none 57528820 90803 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "31807 S encrypts a message using S's private key, and D decrypts the message using D's public key. S encrypts a message using S 's private key, and D decrypts the message using D 's public key. S encrypts a message using S's private key, and D decrypts the message using D's public key. S encrypts a message using S 's private key, and D decrypts the message using D 's public key. exact_answer none 57528820 31807 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 16,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "23335 2 messages/slot. 2 messages/slot. exact_answer none 57528805 23335 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "72091 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). exact_answer none 57528805 72091 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "35208 1 message/slot. 1 message/slot. exact_answer none 57528805 35208 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "15813 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). exact_answer none 57528805 15813 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 17,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "4154 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). exact_answer none 57528804 4154 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "87545 1 message/slot. 1 message/slot. exact_answer none 57528804 87545 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "86462 2 messages/slot. 2 messages/slot. exact_answer none 57528804 86462 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "43019 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). exact_answer none 57528804 43019 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  },
+  {
+    "filename": "Attempt 2 - Module 10 Summary Exercises.html",
+    "question_number": 18,
+    "question_text": "",
+    "images": [],
+    "options": [
+      {
+        "text": "42242 1 message/slot. 1 message/slot. exact_answer none 57528815 42242 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "92263 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). 0.5 messages/slot (i.e., 1 message every two slots). 0.5 messages/slot ( i.e., 1 message every two slots). exact_answer none 57528815 92263 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "11111 2 messages/slot. 2 messages/slot. exact_answer none 57528815 11111 margin of error +/-",
+        "selected": false,
+        "correct": null
+      },
+      {
+        "text": "36760 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). 0.25 messages/slot (i.e., one message every four slots). 0.25 messages/slot ( i.e., one message every four slots). exact_answer none 57528815 36760 margin of error +/-",
+        "selected": false,
+        "correct": null
+      }
+    ]
+  }
+]
