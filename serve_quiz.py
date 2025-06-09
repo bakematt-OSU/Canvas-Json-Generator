@@ -49,8 +49,9 @@ def serve_quiz(directory: str = None, port: int = 8000, no_open: bool = False):
             httpd.serve_forever()
         except KeyboardInterrupt:
             print("\nServer stopped.")
-
-if __name__ == "__main__":
+            
+            
+def main():
     parser = argparse.ArgumentParser(
         description="Serve quiz files over HTTP and open index.html in browser"
     )
@@ -68,3 +69,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     serve_quiz(args.directory, args.port, args.no_open)
+
+if __name__ == "__main__":
+   main();

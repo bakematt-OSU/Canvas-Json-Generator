@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+extractor.py
+
+Provides functions to extract quiz questions from Canvas HTML files,
+copy images, slugify names, and write output JSON. Now includes
+`extract_main` for programmatic integration with canvas_tools.
+"""
 import zipfile
 import os
 import re
@@ -18,6 +25,37 @@ def extract_zip(zip_path: str, extract_to: str):
     with zipfile.ZipFile(zip_path, 'r') as zf:
         zf.extractall(extract_to)
 
+# —— MAIN EXTRACT FUNCTION —————————————————————————————————————————————————
+def extract_main(
+    zip_path: str,
+    extract_to: str,
+    output_json: str,
+    images_folder: str
+):
+    """
+    Extracts HTML files from a ZIP, processes each for quiz questions,
+    and writes the combined JSON. Saves any images to `images_folder`.
+    """
+    # Unzip HTML files
+    extract_zip(zip_path, extract_to)
+    os.makedirs(images_folder, exist_ok=True)
+
+    # Process each HTML file
+    all_qs = []
+    for fname in os.listdir(extract_to):
+        if not fname.lower().endswith('.html'):
+            continue
+        path = os.path.join(extract_to, fname)
+        print(f"Parsing {fname}…")
+        all_qs.extend(
+            extract_questions_from_taken_quiz(path, images_folder)
+        )
+
+    # Write out JSON
+    write_json(all_qs, output_json)
+    print(f"✔ Extracted {len(all_qs)} questions into {output_json}\n"
+          f"✔ Images saved in {images_folder}")
+
 # —— SLUGIFY UTILITY ————————————————————————————————————————————————————
 def slugify(text: str) -> str:
     s = text.lower()
@@ -25,7 +63,12 @@ def slugify(text: str) -> str:
     return re.sub(r'-{2,}', '-', s).strip('-')
 
 # —— COPY & RENAME IMAGE ——————————————————————————————————————————————————
-def copy_and_rename_image(src_path: str, dest_folder: str, question_id: str, img_idx: int) -> str:
+def copy_and_rename_image(
+    src_path: str,
+    dest_folder: str,
+    question_id: str,
+    img_idx: int
+) -> str:
     ext = os.path.splitext(src_path)[1] or '.png'
     new_filename = f"{question_id}_img{img_idx:02d}{ext}"
     os.makedirs(dest_folder, exist_ok=True)
@@ -52,13 +95,22 @@ def iter_qt_content(element):
                 yield from iter_qt_content(child)
 
 # —— CORE PARSER ————————————————————————————————————————————————————————
-def extract_questions_from_taken_quiz(html_path: str) -> list:
+def extract_questions_from_taken_quiz(
+    html_path: str,
+    images_folder: str = IMAGES_FOLDER
+) -> list:
+    """
+    Parse a taken Canvas quiz HTML, extract questions, options, status, and images.
+    `images_folder` is where to copy any local images.
+    """
     with open(html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f, 'html.parser')
 
     # — CLASS INFO FROM BREADCRUMBS
     class_name = class_code = section = term = year = None
-    crumbs_li = soup.select_one('div.ic-app-crumbs nav#breadcrumbs ul li:nth-of-type(2) span.ellipsible')
+    crumbs_li = soup.select_one(
+        'div.ic-app-crumbs nav#breadcrumbs ul li:nth-of-type(2) span.ellipsible'
+    )
     if crumbs_li:
         course_label = crumbs_li.get_text(strip=True)
         m_cls = re.match(r'^(.*?)\s*\(([^)]+)\)$', course_label)
@@ -66,13 +118,12 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             class_name = m_cls.group(1).strip()
             parts = m_cls.group(2).split('_')
             if len(parts) == 4:
-                # parts: [dept, code, section, termYear]
                 class_code = f"{parts[0]}_{parts[1]}"
                 section = parts[2]
-                term_year = parts[3]
-                term_map = {'S': 'Spring', 'W': 'Winter', 'F': 'Fall', 'U': 'Summer'}
-                term = term_map.get(term_year[0], 'Unknown')
-                year = term_year[1:]
+                ty = parts[3]
+                term_map = {'S':'Spring','W':'Winter','F':'Fall','U':'Summer'}
+                term = term_map.get(ty[0], 'Unknown')
+                year = ty[1:]
 
     # — HEADER: QUIZ & STUDENT
     quiz_name = ''
@@ -86,12 +137,12 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
             full_name = m.group(2).strip()
             parts = full_name.split(None, 1)
             first_name = parts[0]
-            last_name = parts[1] if len(parts) > 1 else None
+            last_name = parts[1] if len(parts)>1 else None
         else:
             quiz_name = re.sub(r'\s*Results\s+for.*$', '', full_header).strip()
     quiz_slug = slugify(quiz_name) if quiz_name else None
 
-    # — ATTEMPT
+    # — ATTEMPT NUMBER
     attempt = None
     sel = soup.select_one('li.quiz_version.selected a')
     if sel:
@@ -101,7 +152,6 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
 
     questions = []
     for idx, q in enumerate(soup.find_all('div', class_='display_question'), start=1):
-        # — OPTIONS & SELECTED
         opts, sel_opts = [], []
         for ans in q.find_all('div', class_='answer'):
             at = ans.find('div', class_='answer_text') or ans.find('div', class_='answer_label')
@@ -128,7 +178,7 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
         # — QUESTION ID
         question_id = f"{quiz_slug}_att{attempt}_q{idx:02d}" if quiz_slug and attempt is not None else None
 
-        # — QUESTION BODY & IMAGES — recursive capture of text & images
+        # — QUESTION BODY & IMAGES
         qt_div = q.find('div', class_='question_text')
         question_body = []
         img_counter = 1
@@ -139,40 +189,40 @@ def extract_questions_from_taken_quiz(html_path: str) -> list:
                     text_buf += (' ' if text_buf else '') + node
                 else:
                     if text_buf.strip():
-                        question_body.append({'type': 'text', 'text': text_buf.strip()})
+                        question_body.append({'type':'text','text':text_buf.strip()})
                         text_buf = ''
                     src = node.get('src') or node.get('data-src') or ''
                     if src:
-                        if src.startswith(('http://', 'https://')):
+                        if src.startswith(('http://','https://')):
                             img_ref = src
                         else:
-                            orig_path = os.path.normpath(os.path.join(os.path.dirname(html_path), src))
-                            img_ref = copy_and_rename_image(orig_path, IMAGES_FOLDER, question_id or quiz_slug or 'img', img_counter)
+                            orig = os.path.normpath(os.path.join(os.path.dirname(html_path), src))
+                            img_ref = copy_and_rename_image(orig, images_folder, question_id or quiz_slug or 'img', img_counter)
                         if img_ref:
-                            question_body.append({'type': 'image', 'src': img_ref})
+                            question_body.append({'type':'image','src':img_ref})
                             img_counter += 1
             if text_buf.strip():
-                question_body.append({'type': 'text', 'text': text_buf.strip()})
+                question_body.append({'type':'text','text':text_buf.strip()})
 
         questions.append({
-            'first_name':        first_name,
-            'last_name':         last_name,
-            'class_name':        class_name,
-            'class':             class_code,
-            'section':           section,
-            'term':              term,
-            'year':              year,
-            'quiz_name':         quiz_name,
-            'attempt':           attempt,  
-            'question_id':       question_id,  
-            'question_number':   idx,
-            'status':            status,
-            'points_awarded':    pa,
-            'points_possible':   pp,
-            'question_body':     question_body,
-            'options':           opts,
-            'selected_options':  sel_opts,
-            'source_file':       os.path.basename(html_path)
+            'first_name':       first_name,
+            'last_name':        last_name,
+            'class_name':       class_name,
+            'class':            class_code,
+            'section':          section,
+            'term':             term,
+            'year':             year,
+            'quiz_name':        quiz_name,
+            'attempt':          attempt,
+            'question_id':      question_id,
+            'question_number':  idx,
+            'status':           status,
+            'points_awarded':   pa,
+            'points_possible':  pp,
+            'question_body':    question_body,
+            'options':          opts,
+            'selected_options': sel_opts,
+            'source_file':      os.path.basename(html_path)
         })
 
     return questions
@@ -183,21 +233,9 @@ def write_json(data: list, out_path: str):
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-# —— MAIN WORKFLOW ——————————————————————————————————————————————————————
+# —— CLI ENTRYPOINT —————————————————————————————————————————————————————
 def main():
-    extract_zip(ZIP_FILE, EXTRACT_FOLDER)
-    os.makedirs(IMAGES_FOLDER, exist_ok=True)
-
-    all_qs = []
-    for fname in os.listdir(EXTRACT_FOLDER):
-        if not fname.lower().endswith('.html'):
-            continue
-        path = os.path.join(EXTRACT_FOLDER, fname)
-        print(f"Parsing {fname}…")
-        all_qs.extend(extract_questions_from_taken_quiz(path))
-
-    write_json(all_qs, OUTPUT_JSON)
-    print(f"✔ Extracted {len(all_qs)} questions into {OUTPUT_JSON}\n✔ Images saved in {IMAGES_FOLDER}")
+    extract_main(ZIP_FILE, EXTRACT_FOLDER, OUTPUT_JSON, IMAGES_FOLDER)
 
 if __name__ == '__main__':
     main()
