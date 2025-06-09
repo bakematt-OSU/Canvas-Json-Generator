@@ -229,6 +229,24 @@ def extract_questions_from_taken_quiz(
 
 # —— WRITE JSON ————————————————————————————————————————————————————————
 def write_json(data: list, out_path: str):
+    """
+    Append new entries to an existing JSON array, or create it if missing/invalid.
+    """
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    # Load existing entries, if any
+    try:
+        with open(out_path, 'r', encoding='utf-8') as f:
+            existing = json.load(f)
+            if not isinstance(existing, list):
+                existing = []
+    except (FileNotFoundError, json.JSONDecodeError):
+        existing = []
+    # Combine and write back
+    combined = existing + data
+    with open(out_path, 'w', encoding='utf-8') as f:
+        json.dump(combined, f, indent=2, ensure_ascii=False)
+
+def OLD_write_json(data: list, out_path: str):
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
